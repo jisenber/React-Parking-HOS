@@ -9,43 +9,24 @@ Original repo can be found here: [https://github.com/jkwong5/ParkingHOS](https:/
 
 This app has been refactored three times. Stacks for each iteration listed below
 
-##### v1 (2015, no longer live): #####
+##### v1 (2016, no longer live): #####
 
-- Front End:
-    - jQuery
-    - Handlebars
+- **Front End**: jQuery, Handlebars
 
 
- - Back End:
-    - Node
-    - Express
-    - Postgres
+ - **Back End**: Node, Express, Postgres
 
 ##### v2 (2017, live): #####
 
-- Front End
-  - jQuery
-  - Nunjucks
-  - MDBootstrap
+- **Front End**: jQuery, Nunjucks, MDBootstrap
 
-
- - Back End:
-  - Node
-  - Express
-  - MongoDB
+- **Back End**: Node, Express, MongoDB
 
 ##### v3 (2017, refactor in progress): #####
 
-- Front End
-  - React
-  - Redux
-  - MDBootstrap
+- **Front End**: React, Redux, MDBootstrap
 
-
- - Back End:
-  - Node
-  - Express
-  - MongoDB
+- **Back End**: Node, Express, MongoDB
 
 
 
