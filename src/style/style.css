@@ -1,0 +1,13 @@
+ul.dropdown-menu {
+  width: 100%;
+}
+
+li.navList {
+  width: 100%;
+  padding: 1em;
+  cursor: pointer;
+}
+
+li.navList:hover {
+  background-color: #d3d3d3;
+}
