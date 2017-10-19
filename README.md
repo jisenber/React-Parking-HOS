@@ -29,7 +29,6 @@ This app has been refactored three times. Stacks for each iteration listed below
 - **Back End**: Node, Express, MongoDB
 
 
-
 ##### Authors:
   - Jon Wong
   - Jacob Isenberg
