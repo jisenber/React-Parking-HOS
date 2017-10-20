@@ -27,8 +27,7 @@ class Nav extends Component {
 
   }
 
-  handleClickOutside(e) {
-    e.preventDefault();
+  handleClickOutside() {
     this.setState ({
       mobileNavOptions: false
     });
