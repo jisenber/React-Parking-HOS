@@ -1,5 +1,6 @@
 ul.dropdown-menu {
   width: 100%;
+  border-bottom: solid;
 }
 
 li.navList {
@@ -10,4 +11,22 @@ li.navList {
 
 li.navList:hover {
   background-color: #d3d3d3;
+}
+
+
+.modal-title {
+  width: 100%;
+}
+
+.modalHeader {
+  text-align: center;
+}
+
+.fa-lock {
+  color: #666666;
+}
+
+.fa-envelope {
+  color: #666666;
+
 }

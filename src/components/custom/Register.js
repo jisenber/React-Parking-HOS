@@ -7,12 +7,27 @@ class Register extends Component {
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Registration Modal</ModalHeader>
         <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary">Register</Button>{' '}
-          <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
-        </ModalFooter>
+        <form id = "registerForm">
+          <div className="md-form form-sm">
+            <i className="fa fa-envelope prefix"></i>
+            <input type="text" id="registerEmail" className="form-control" placeholder="Your email"/>
+          </div>
+          <div className="md-form form-sm">
+            <i className="fa fa-lock prefix"></i>
+            <input type="password" id="registerPassword" className="form-control" placeholder="Your password"/>
+          </div>
+          <div className="md-form form-sm">
+            <i className="fa fa-lock prefix"></i>
+            <input type="password" id="registerPassword" className="form-control" placeholder="Repeat password"/>
+          </div>
+          <div className="text-center mt-2">
+            <button type="submit" className="btn btn-info waves-effect waves-light" id="registerBtn">Sign Up<i className="fa fa-sign-in ml-1"></i></button>
+        </div>
+        </form>
+      </ModalBody>
+      <ModalFooter>
+        <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle}>Close<i className="fa fa-times-circle ml-1"></i></button>
+      </ModalFooter>
       </Modal>
     );
   }

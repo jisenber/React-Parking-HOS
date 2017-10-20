@@ -25,6 +25,10 @@ class Nav extends Component {
 
   }
 
+  componentWillUpdate() {
+    console.log('will you update??');
+  }
+
   //opens registration modal
   toggleRegister() {
     this.setState({
@@ -40,7 +44,7 @@ class Nav extends Component {
   }
 
   toggleMobileNav(e) {
-    e.preventDefault()
+    e.preventDefault();
     console.log('toggled');
     this.setState({
       mobileNavOptions: !this.state.mobileNavOptions
