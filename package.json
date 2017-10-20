@@ -12,6 +12,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-motion-ui-pack": "^0.10.3",
+    "react-onclickoutside": "^6.6.2",
     "react-popper": "^0.7.2",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",

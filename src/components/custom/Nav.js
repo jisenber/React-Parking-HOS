@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'mdbreact';
 import Routes from '../../../mdbReactdocs/Routes';
+import onClickOutside from 'react-onclickoutside'; //vendor package to help with hiding the mobile nav when displayed
 import Register from './Register';
 import Login from './Login';
 import '../../style/style.css';
@@ -25,6 +26,13 @@ class Nav extends Component {
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
 
+  }
+
+  handleClickOutside(e) {
+    e.preventDefault();
+    this.setState ({
+      mobileNavOptions: false
+    });
   }
 
   //opens and closes registration modal
@@ -53,7 +61,7 @@ class Nav extends Component {
   render() {
     return (
       <div className="flyout">
-        <Navbar color="black" dark expand="md" onBlur={this.toggleMobileNav}>
+        <Navbar color="black" dark expand="md">
           <NavbarBrand href="/">Space Invaderz</NavbarBrand>
           <NavbarToggler onClick={this.toggleMobileNav}/>
           <ul className="dropdown-menu" style={{display: this.state.mobileNavOptions ? 'block' : 'none'}}>
@@ -79,4 +87,4 @@ class Nav extends Component {
   }
 }
 
-export default Nav;
+export default onClickOutside(Nav);
