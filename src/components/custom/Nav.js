@@ -2,62 +2,83 @@ import React, { Component } from 'react';
 
 import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, NavLink, Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import Routes from '../../../mdbReactdocs/Routes';
+import Register from './Register';
+import Login from './Login';
+import '../../style/style.css';
 
+//Nav Component
 class Nav extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      modal: false,
-      backdrop: false
+      login: false,
+      register: false,
+      backdrop: false,
+      mobileNavOptions: false
     };
 
-    this.toggle = this.toggle.bind(this);
+    //binds the function to the component. Without these bindings 'this' would not have the proper reference
+    this.toggleRegister = this.toggleRegister.bind(this);
+    this.toggleLogin = this.toggleLogin.bind(this);
+    this.toggleMobileNav = this.toggleMobileNav.bind(this);
+
   }
 
-  componentWillMount() {
-    console.log('will mount');
+  componentWillUpdate() {
+    console.log('will you update??');
   }
 
-  componentDidMount() {
-    console.log('mounted');
-  }
-
-  toggle() {
+  //opens registration modal
+  toggleRegister() {
     this.setState({
-      modal: !this.state.modal
+      register: !this.state.register
     });
   }
+
+  //opens login modal
+  toggleLogin() {
+    this.setState({
+      login: !this.state.login
+    });
+  }
+
+  toggleMobileNav(e) {
+    e.preventDefault();
+    console.log('toggled');
+    this.setState({
+      mobileNavOptions: !this.state.mobileNavOptions
+    });
+  }
+
 
   render() {
     return (
       <div className="flyout">
         <Navbar color="black" dark expand="md">
           <NavbarBrand href="/">Space Invaderz</NavbarBrand>
-          <NavbarToggler />
+          <NavbarToggler onClick={this.toggleMobileNav}/>
+          <ul className="dropdown-menu"  style={{display: this.state.mobileNavOptions ? 'block' : 'none'}}>
+            <li className ="navList" onClick={this.toggleLogin}><b>Login</b></li>
+            <li className ="navList" onClick={this.toggleRegister}><b>Register</b></li>
+          </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
-
             <NavbarNav className="ml-auto">
               <NavItem>
-                <Button onClick={this.toggle}>Login/Register</Button>
+                <Button onClick={this.toggleLogin}>Login</Button>
+              </NavItem>
+              <NavItem>
+                <Button onClick={this.toggleRegister}>Register</Button>
               </NavItem>
             </NavbarNav>
           </div>
         </Navbar>
         <Routes />
-        <Modal isOpen={this.state.modal} toggle={this.toggle} backdrop="static">
-          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-          <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
+        <Register isOpen = {this.state.register} toggle={this.toggleRegister} backdrop ="static"/>
+        <Login isOpen = {this.state.login} toggle={this.toggleLogin} backdrop ="static"/>
       </div>
     );
   }
 }
 
-export default Nav
+export default Nav;
