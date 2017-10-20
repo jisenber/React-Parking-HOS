@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'mdbreact';
-import Routes from '../../../mdbReactdocs/Routes';
 import onClickOutside from 'react-onclickoutside'; //vendor package to help with hiding the mobile nav when displayed
 import Register from './Register';
 import Login from './Login';
@@ -79,7 +78,6 @@ class Nav extends Component {
             </NavbarNav>
           </div>
         </Navbar>
-        <Routes />
         <Register isOpen = {this.state.register} toggle={this.toggleRegister} backdrop ="static"/>
         <Login isOpen = {this.state.login} toggle={this.toggleLogin} backdrop ="static"/>
       </div>
