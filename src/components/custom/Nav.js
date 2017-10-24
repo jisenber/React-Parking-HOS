@@ -36,14 +36,16 @@ class Nav extends Component {
   //opens and closes registration modal
   toggleRegister() {
     this.setState({
-      register: !this.state.register
+      register: !this.state.register,
+      login: false
     });
   }
 
   //opens and closes login modal
   toggleLogin() {
     this.setState({
-      login: !this.state.login
+      login: !this.state.login,
+      register: false
     });
   }
 
@@ -77,8 +79,8 @@ class Nav extends Component {
             </NavbarNav>
           </div>
         </Navbar>
-        <Register isOpen = {this.state.register} toggle={this.toggleRegister} backdrop ="static"/>
-        <Login isOpen = {this.state.login} toggle={this.toggleLogin} backdrop ="static"/>
+        <Register isOpen = {this.state.register} toggle={this.toggleRegister} />
+        <Login isOpen = {this.state.login} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
       </div>
     );
   }
