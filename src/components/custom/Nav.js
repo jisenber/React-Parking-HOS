@@ -26,12 +26,17 @@ class Nav extends Component {
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
 
   }
+  
+  componentWillUpdate() {
+    console.log('thinking about updating');
+  }
 
   handleClickOutside() {
     this.setState ({
-      mobileNavOptions: false
+      mobileNavOptions: false,
     });
   }
+
 
   //opens and closes registration modal
   toggleRegister() {
@@ -80,10 +85,12 @@ class Nav extends Component {
           </div>
         </Navbar>
         <Register isOpen = {this.state.register} toggle={this.toggleRegister} />
+
         <Login isOpen = {this.state.login} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
       </div>
     );
   }
 }
+
 
 export default onClickOutside(Nav);

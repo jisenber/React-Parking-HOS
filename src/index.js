@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom'
+import { render } from 'react-dom';
 import { createStore } from 'redux';
 import parkingApp from '../src/reducers/index';
 import Root from './Root';
@@ -11,7 +11,6 @@ import 'mdbootstrap/css/mdb.min.css';
 var store = createStore(parkingApp);
 
 import registerServiceWorker from './registerServiceWorker';
-
 
 
 render(
