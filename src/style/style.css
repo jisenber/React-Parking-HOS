@@ -27,10 +27,28 @@ li.navList:hover {
 
 .fa-envelope {
   color: #666666;
+}
 
+.form-control {
+  margin-left: 2em;
+  max-width: 27em;
 }
 
 #forgot {
   margin-left: .75em;
   width: 95%;
+}
+
+#postButton {
+  position: fixed;
+  bottom: 3em;
+  right: 2em;
+  height: 5em;
+  width: 2em;
+  border-radius: 100%;
+}
+
+#postButton i {
+  font-size: 3em;
+  right: .35em;
 }

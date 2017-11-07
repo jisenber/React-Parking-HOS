@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Nav from './components/custom/Nav';
 import Invader from './components/custom/Invader';
+import Add from './components/custom/Add'
 
 
 class App extends Component {
@@ -10,6 +11,7 @@ class App extends Component {
       <div className ="appContainer">
         <Nav/>
         <Invader/>
+        <Add/>
       </div>
     );
   }
