@@ -4,6 +4,7 @@ import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'm
 import onClickOutside from 'react-onclickoutside'; //vendor package to help with hiding the mobile nav when displayed
 import Register from './Register';
 import Login from './Login';
+import Add from './Add';
 import '../../style/style.css';
 
 //Nav Component
@@ -17,6 +18,7 @@ class Nav extends Component {
       login: false,
       register: false,
       backdrop: false,
+      add: false,
       mobileNavOptions: false
     };
 
@@ -24,15 +26,16 @@ class Nav extends Component {
     this.toggleRegister = this.toggleRegister.bind(this);
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
+    this.toggleAdd = this.toggleAdd.bind(this);
 
   }
+
 
   handleClickOutside() {
     this.setState ({
       mobileNavOptions: false,
     });
   }
-
 
   //opens and closes registration modal
   toggleRegister() {
@@ -45,6 +48,17 @@ class Nav extends Component {
   toggleLogin() {
     this.setState({
       login: !this.state.login
+    });
+  }
+
+  //opens and closes Add modal
+  toggleAdd(e) {
+    e.preventDefault();
+    console.log("add")
+    this.setState({
+      add: !this.state.add,
+      login: false,
+      register: false
     });
   }
 
@@ -78,12 +92,17 @@ class Nav extends Component {
             </NavbarNav>
           </div>
         </Navbar>
-        <Register isOpen = {this.state.register} toggle={this.toggleRegister}/>
-        <Login isOpen = {this.state.login} toggle={this.toggleLogin}/>
+        <Register isOpen = {this.state.register} toggle={this.toggleRegister} />
+        <Login isOpen = {this.state.login} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
+        <Add isOpen = {this.state.add} toggle={this.toggleAdd} />
+        <div className="fab">
+          <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
+          <i className="fa fa-plus"></i>
+          </Button>
+        </div>
       </div>
     );
   }
 }
-
 
 export default onClickOutside(Nav);
