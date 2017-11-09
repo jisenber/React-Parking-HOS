@@ -9,7 +9,7 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdbootstrap/css/mdb.min.css';
 
-const store = configureStore();
+export const store = configureStore();
 
 render(
   <Provider store = {store}>
