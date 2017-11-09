@@ -40,16 +40,14 @@ class Nav extends Component {
   //opens and closes registration modal
   toggleRegister() {
     this.setState({
-      register: !this.state.register,
-      login: false
+      register: !this.state.register
     });
   }
 
   //opens and closes login modal
   toggleLogin() {
     this.setState({
-      login: !this.state.login,
-      register: false
+      login: !this.state.login
     });
   }
 
