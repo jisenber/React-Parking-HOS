@@ -5,19 +5,16 @@
 
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {carsFetchData} from '../../actions/cars'
+import {carsFetchData} from '../../actions/cars';
 
 class CarList extends Component {
 
   //once the component mounts, run the fetchData method. fetchData is defined below in mapDispatchToProps which assigns it to an action. The action can be found in ../../actions/cars.js
   componentDidMount() {
-    this.props.fetchData('http://localhost:4200/cars')
+    this.props.fetchCars('http://localhost:4200/cars')
   }
 
   render() {
-    if (this.props.isLoading) {
-      return <p>Loading…</p>;
-    }
     return (
       <ul>
         {this.props.cars.map((cars) => (
@@ -30,15 +27,18 @@ class CarList extends Component {
   }
 }
 
+//method that you define that is part of react-redux. Sends the state of the applications to the props of a component.
 const mapStateToProps = (state) => {
   return {
     cars: state.cars,
     isLoading: state.itemsIsLoading
   };
 };
+
+//same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: (url) => dispatch(carsFetchData(url))
+    fetchCars: (url) => dispatch(carsFetchData(url))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CarList);
