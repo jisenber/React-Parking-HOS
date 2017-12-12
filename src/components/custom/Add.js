@@ -1,32 +1,23 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {store} from '../../index.js'
+import {connect} from 'react-redux';
+import {carsFetchData} from '../../actions/cars';
 
-class Add extends Component {
-  constructor(props) {
-    super(props)
+export class Add extends Component {
 
-    this.state = {
-      cars: []
-    }
+  componentDidMount() {
+    this.props.fetchCars('http://localhost:4200/cars')
 
-    this.loadCars = this.loadCars.bind(this)
   }
 
-  loadCars() {
-    if(this.state.cars.length) {
-      return
-    } else {
-      var self = this
-      var carInfo = store.getState()
-      carInfo.cars.map(function(car) {
-        return self.state.cars.push(car)
-      })
-    }
+  componentWillReceiveProps(nextProps) {
+    console.log('made it into willReceiveProps');
+    console.log(nextProps);
   }
-
 
   render(){
+    if(this.props.cars) {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Submit an Invader</ModalHeader>
@@ -47,7 +38,7 @@ class Add extends Component {
               <select name="Make" id="makeBar" className="form-control" required>
                 <option value="" key="top"> ---Make --- </option>
                 {
-                  this.state.cars.map(function(car) {
+                  this.props.cars.map(function(car) {
                     return <option value = ""key={car._id}>{car.make}</option>
                   })
                 }
@@ -69,11 +60,30 @@ class Add extends Component {
           </form>
         </ModalBody>
         <ModalFooter>
-          <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle, this.loadCars()}>Close<i className="fa fa-times-circle ml-1"></i></button>
+          <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle}>Close<i className="fa fa-times-circle ml-1"></i></button>
         </ModalFooter>
       </Modal>
     );
+  } else {
+    return (
+      <div></div>
+    )
+    }
   }
 }
 
-export default Add;
+const mapStateToProps = (state) => {
+  return {
+    cars: state.cars,
+    isLoading: state.itemsIsLoading
+  };
+};
+
+//same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCars: (url) => dispatch(carsFetchData(url))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Add);
