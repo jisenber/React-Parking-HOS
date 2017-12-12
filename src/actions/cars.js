@@ -31,7 +31,6 @@ export function carsFetchData(url) {
         return cars.json();
       })
       .then(function(cars) {
-        console.log(cars);
         return cars
       })
       .then((cars) => dispatch(carsFetchDataSuccess(cars)))

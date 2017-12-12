@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 import Nav from './components/custom/Nav';
 import Invader from './components/custom/Invader';
-import Add from './components/custom/Add'
-
-import CarList from './components/custom/CarList';
+import {Add} from './components/custom/Add'
 
 class App extends Component {
   render() {
@@ -13,7 +11,6 @@ class App extends Component {
         <Nav/>
         <Invader/>
         <Add/>
-        <CarList/>
       </div>
     );
   }
