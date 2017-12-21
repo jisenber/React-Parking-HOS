@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
-import {store} from '../../index.js'
+import {store} from '../../index.js';
 import {connect} from 'react-redux';
-import {carsFetchData} from '../../actions/cars';
+import {carsFetchData, statesFetchData} from '../../actions/cars';
 
 export class Add extends Component {
 
   componentDidMount() {
     if(this.props.fetchCars) {
-      this.props.fetchCars('http://localhost:4200/cars')
+      this.props.fetchStates('https://parking-hos-backend.herokuapp.com/states'),
+      this.props.fetchCars('https://parking-hos-backend.herokuapp.com/cars')
     } else {
       console.log('loading cars');
     }
+  }
+
+  componentWillReceiveProps(nextProps){
+    console.log("These are next props: ", nextProps)
+    console.log(store.getState())
   }
 
   render(){
@@ -29,6 +35,11 @@ export class Add extends Component {
             <i className="fa fa-map-marker prefix"></i>
               <select name="state" id="stateBar" className="form-control" required>
                 <option value=""> ---States --- </option>
+                {
+                  this.props.states.map(function(state) {
+                    return <option value = ""key={state._id}>{state.name}</option>
+                  })
+                }
               </select>
             </div>
             <div className="md-form form-sm">
@@ -73,6 +84,7 @@ export class Add extends Component {
 const mapStateToProps = (state) => {
   return {
     cars: state.cars,
+    states: state.states,
     isLoading: state.itemsIsLoading
   };
 };
@@ -80,7 +92,8 @@ const mapStateToProps = (state) => {
 //same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCars : (url) => dispatch(carsFetchData(url))
+    fetchCars : (url) => dispatch(carsFetchData(url)),
+    fetchStates : (url) => dispatch(statesFetchData(url))
   };
 };
 
