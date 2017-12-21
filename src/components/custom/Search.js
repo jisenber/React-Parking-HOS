@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
+// import SearchInput, {createFilter} from 'react-search-input'
 import {render} from 'react-dom'
-
 import {store} from '../../index.js'
-
-// SearchInput, {createFilter} from '../../lib/index'
+import SearchInput, {createFilter} from '../mdb/searchindex'
 
 import emails from './Invader'
 
@@ -21,22 +20,14 @@ class Search extends Component {
 componentDidMount(){
   console.log("Getting State");
   console.log(store.getState());
+  // const filteredEmails = emails.filter(createFilter(this.state.searchTerm, this.makes, ))
+  // console.log(filteredEmails);
 }
 
   render () {
-    const filteredEmails = emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
-
     return (
       <div>
-        <SearchInput className='search-input' onChange={this.searchUpdated} />
-        {filteredEmails.map(email => {
-          return (
-            <div className='mail' key={email.id}>
-              <div className='from'>{email.user.name}</div>
-              <div className='subject'>{email.subject}</div>
-            </div>
-          )
-        })}
+
       </div>
     )
   }
@@ -46,4 +37,4 @@ componentDidMount(){
   }
 }
 
-render(<Search />, document.getElementById('search'))
+export default Search;

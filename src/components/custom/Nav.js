@@ -5,6 +5,7 @@ import onClickOutside from 'react-onclickoutside'; //vendor package to help with
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
+import Search from './Search'
 import '../../style/style.css';
 
 //Nav Component
@@ -83,6 +84,9 @@ class Nav extends Component {
           </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
+              <NavItem>
+                <input type="text" id="searchBar" className="searchBar" placeholder="Search" onChange={this.searchUpdated} />
+              </NavItem>
               <NavItem>
                 <Button onClick={this.toggleLogin}>Login</Button>
               </NavItem>

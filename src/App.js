@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import Nav from './components/custom/Nav';
 import Invader from './components/custom/Invader';
-import Add from './components/custom/Add'
-
+import Add from './components/custom/Add';
 import CarList from './components/custom/CarList';
+import Search from './components/custom/Search';
 
 class App extends Component {
   render() {
@@ -14,6 +14,7 @@ class App extends Component {
         <Invader/>
         <Add/>
         <CarList/>
+        <Search/>
       </div>
     );
   }

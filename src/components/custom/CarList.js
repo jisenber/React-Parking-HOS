@@ -11,7 +11,7 @@ class CarList extends Component {
 
   //once the component mounts, run the fetchData method. fetchData is defined below in mapDispatchToProps which assigns it to an action. The action can be found in ../../actions/cars.js
   componentDidMount() {
-    this.props.fetchCars('https://parking-hos-backend.herokuapp.com/cars')
+    this.props.fetchCars('https://localhost:8080/cars')
   }
 
   render() {
