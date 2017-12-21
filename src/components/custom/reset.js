@@ -1,3 +1,5 @@
+/*
+
 ResetPassword = React.createClass({
   validations() {
     let component = this;
@@ -64,6 +66,7 @@ ResetPassword = React.createClass({
         </Form>
       </GridColumn>
     </GridRow>;
-    
+
   }
 });
+*/
