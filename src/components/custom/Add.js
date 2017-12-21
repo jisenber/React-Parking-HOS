@@ -7,13 +7,11 @@ import {carsFetchData} from '../../actions/cars';
 export class Add extends Component {
 
   componentDidMount() {
-    this.props.fetchCars('http://localhost:4200/cars')
-
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('made it into willReceiveProps');
-    console.log(nextProps);
+    if(this.props.fetchCars) {
+      this.props.fetchCars('http://localhost:4200/cars')
+    } else {
+      console.log('loading cars');
+    }
   }
 
   render(){
@@ -82,7 +80,7 @@ const mapStateToProps = (state) => {
 //same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCars: (url) => dispatch(carsFetchData(url))
+    fetchCars : (url) => dispatch(carsFetchData(url))
   };
 };
 
