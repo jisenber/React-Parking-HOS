@@ -2,9 +2,22 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
-import {carsFetchData, statesFetchData} from '../../actions/cars';
+import {carsFetchData, statesFetchData, updateCarModels} from '../../actions/cars';
 
 export class Add extends Component {
+
+  handleMakeChange(e) {
+    const carArr = store.getState().cars;
+    console.log('here is the carArr', carArr);
+    for (let i = 0; i < carArr.length; i++) {
+      if (carArr[i].make === e.target.value) {
+        this.props.updateCarModels(carArr[i].models)
+        return;
+      }
+    }
+    console.log('sorry no models found');
+  }
+
 
   componentDidMount() {
     if(this.props.fetchCars) {
@@ -13,11 +26,6 @@ export class Add extends Component {
     } else {
       console.log('loading cars');
     }
-  }
-
-  componentWillReceiveProps(nextProps){
-    console.log("These are next props: ", nextProps)
-    console.log(store.getState())
   }
 
   render(){
@@ -37,18 +45,18 @@ export class Add extends Component {
                 <option value=""> ---States --- </option>
                 {
                   this.props.states.map(function(state) {
-                    return <option value = ""key={state._id}>{state.name}</option>
+                    return <option value={state.name} key={state._id}>{state.name}</option>
                   })
                 }
               </select>
             </div>
             <div className="md-form form-sm">
             <i className="fa fa-car prefix"></i>
-              <select name="Make" id="makeBar" className="form-control" required>
+              <select name="Make" id="makeBar" className="form-control" onChange={this.handleMakeChange.bind(this)} required>
                 <option value="" key="top"> ---Make --- </option>
                 {
                   this.props.cars.map(function(car) {
-                    return <option value = ""key={car._id}>{car.make}</option>
+                    return <option value={car.make} key={car._id}>{car.make}</option>
                   })
                 }
               </select>
@@ -57,7 +65,11 @@ export class Add extends Component {
             <i className="fa fa-search-plus prefix"></i>
               <select name="Model" id="modelBar" className="form-control" required>
                   <option value=""> ---Model --- </option>
-
+                  {
+                    this.props.carModels.map(function(model) {
+                      return <option value={model} key={model}>{model}</option>
+                    })
+                  }
               </select>
             </div>
             <div id= "imageWidget">
@@ -85,7 +97,8 @@ const mapStateToProps = (state) => {
   return {
     cars: state.cars,
     states: state.states,
-    isLoading: state.itemsIsLoading
+    isLoading: state.itemsIsLoading,
+    carModels: state.carModels
   };
 };
 
@@ -93,7 +106,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCars : (url) => dispatch(carsFetchData(url)),
-    fetchStates : (url) => dispatch(statesFetchData(url))
+    fetchStates : (url) => dispatch(statesFetchData(url)),
+    updateCarModels: (carModels) => dispatch(updateCarModels(carModels))
   };
 };
 

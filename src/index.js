@@ -9,6 +9,8 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdbootstrap/css/mdb.min.css';
 
+
+
 export const store = configureStore();
 
 render(

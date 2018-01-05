@@ -27,6 +27,14 @@ export function statesFetchDataSuccess(states) {
   };
 }
 
+export function updateCarModels(carModels) {
+  console.log('LOGGING THE EVENT TARGET ', carModels);
+  return {
+    type: 'CAR_MAKE_PICKED',
+    carModels
+  };
+}
+
 
 export function carsFetchData(url) {
   return (dispatch) => {
@@ -34,7 +42,6 @@ export function carsFetchData(url) {
 
     fetch(url)
       .then(function(cars) {
-        console.log('MADE IT HERE');
         dispatch(carsAreLoading(false));
         return cars.json();
       })
@@ -50,12 +57,8 @@ export function carsFetchData(url) {
 
 export function statesFetchData(url) {
   return (dispatch) => {
-    // dispatch(statesAreLoading(true));
-
     fetch(url)
       .then(function(states) {
-        console.log('MADE IT STATES');
-        // dispatch(statesAreLoading(false));
         return states.json();
       })
       .then(function(states) {
