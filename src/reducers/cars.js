@@ -27,3 +27,13 @@ export function carModels(state = [], action) {
     return state;
   }
 }
+
+export function imgUrl(state='', action) {
+  switch(action.type){
+    case 'IMG_UPLOAD_SUCESS':
+      return action.secure_url;
+
+    default:
+      return state;
+  }
+}

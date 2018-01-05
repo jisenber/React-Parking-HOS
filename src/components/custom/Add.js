@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
-import {carsFetchData, statesFetchData, updateCarModels} from '../../actions/cars';
+import {carsFetchData, statesFetchData, updateCarModels, uploadFiles} from '../../actions/cars';
+import Dropzone from 'react-dropzone';
 
 export class Add extends Component {
 
@@ -18,6 +19,9 @@ export class Add extends Component {
     console.log('sorry no models found');
   }
 
+  onImageDrop(files) {
+    this.props.uploadFiles(files)
+  }
 
   componentDidMount() {
     if(this.props.fetchCars) {
@@ -72,8 +76,13 @@ export class Add extends Component {
                   }
               </select>
             </div>
-            <div id= "imageWidget">
-              <a href="#" id="upload_widget_opener"></a>
+            <div id= "Dropzone">
+              <Dropzone
+                multiple={false}
+                accept="image/*"
+                onDrop={this.onImageDrop.bind(this)}>
+                <p>Drop or select and image to upload.</p>
+              </Dropzone>
             </div>
             <div className="text-center mt-1-half">
               <button className="btn btn-info mb-2" type="submit">Submit Invader <i className="fa fa-send ml-1"></i></button>
@@ -98,7 +107,8 @@ const mapStateToProps = (state) => {
     cars: state.cars,
     states: state.states,
     isLoading: state.itemsIsLoading,
-    carModels: state.carModels
+    carModels: state.carModels,
+    imgUrl: state.imgUrl
   };
 };
 
@@ -107,7 +117,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCars : (url) => dispatch(carsFetchData(url)),
     fetchStates : (url) => dispatch(statesFetchData(url)),
-    updateCarModels: (carModels) => dispatch(updateCarModels(carModels))
+    updateCarModels: (carModels) => dispatch(updateCarModels(carModels)),
+    uploadFiles: (files) => dispatch(uploadFiles(files))
   };
 };
 
