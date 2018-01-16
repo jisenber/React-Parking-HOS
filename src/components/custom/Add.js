@@ -82,7 +82,13 @@ export class Add extends Component {
                 accept="image/*"
                 onDrop={this.onImageDrop.bind(this)}>
                 <p>Drop or select and image to upload.</p>
-              </Dropzone>
+                </Dropzone>
+                <div className="thumbnailHolder">
+                    {this.props.imgUrl === '' ? null :
+                  <div>
+                    <img src={this.props.imgUrl} />
+                  </div>}
+                </div>
             </div>
             <div className="text-center mt-1-half">
               <button className="btn btn-info mb-2" type="submit">Submit Invader <i className="fa fa-send ml-1"></i></button>

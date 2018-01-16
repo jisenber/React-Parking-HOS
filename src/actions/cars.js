@@ -40,8 +40,9 @@ export function updateCarModels(carModels) {
 }
 
 export function fileUploadSuccess(secure_url) {
+  console.log('fileUploadSuccess hit', secure_url);
   return {
-    type: 'IMG_UPLOAD_SUCESS',
+    type: 'IMG_UPLOAD_SUCCESS',
     secure_url
   };
 }
@@ -84,7 +85,7 @@ export function statesFetchData(url) {
 export function uploadFiles(files) {
   return (dispatch) => {
     let upload = request.post(CLOUDNINARY_UPLOAD_URL)
-      .field('upload_present', CLOUDINARY_UPLOAD_PRESET)
+      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
       .field('file', files)
     upload.end((err, response) => {
       if (err) {

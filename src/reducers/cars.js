@@ -29,11 +29,13 @@ export function carModels(state = [], action) {
 }
 
 export function imgUrl(state='', action) {
-  switch(action.type){
-    case 'IMG_UPLOAD_SUCESS':
-      return action.secure_url;
 
+  switch(action.type){
+    case 'IMG_UPLOAD_SUCCESS':
+      console.log('this is a secure url', action.secure_url);
+      return action.secure_url;
     default:
+      console.log('default condition hit');
       return state;
   }
 }
