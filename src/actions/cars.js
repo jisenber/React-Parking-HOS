@@ -1,4 +1,8 @@
 import fetch from 'isomorphic-fetch';
+import request from 'superagent';
+
+const CLOUDINARY_UPLOAD_PRESET = 'devolunteer';
+const CLOUDNINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dy7kdxxqe/image/upload';
 
 //this is an action creator. It takes in a boolean and returns an argument and returns an object with a meaningful type and boolean
 export function carsHasErrored(bool) {
@@ -35,6 +39,13 @@ export function updateCarModels(carModels) {
   };
 }
 
+export function fileUploadSuccess(secure_url) {
+  console.log('fileUploadSuccess hit', secure_url);
+  return {
+    type: 'IMG_UPLOAD_SUCCESS',
+    secure_url
+  };
+}
 
 export function carsFetchData(url) {
   return (dispatch) => {
@@ -69,4 +80,35 @@ export function statesFetchData(url) {
         console.log(err);
       });
   };
+}
+
+export function uploadFiles(files) {
+  return (dispatch) => {
+    let upload = request.post(CLOUDNINARY_UPLOAD_URL)
+      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+      .field('file', files)
+    upload.end((err, response) => {
+      if (err) {
+        console.error(err);
+      }
+      if (response.body.secure_url !== '') {
+        dispatch(fileUploadSuccess(response.body.secure_url))
+      }
+    })
+  }
+}
+
+export function postInvader(plate, state, make, model, url) {
+  return (dispatch) => {
+    console.log(plate, state, make, model, url);
+    request.post('https://parking-hos-backend.herokuapp.com/submit')
+      .set('Content-Type', 'application/json')
+      .send({ img_url: url, lic_plate: plate, lic_state: state, make: make, model: model})
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log('this is an error:', err);
+      })
+  }
 }

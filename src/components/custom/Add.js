@@ -2,22 +2,38 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
-import {carsFetchData, statesFetchData, updateCarModels} from '../../actions/cars';
+import {carsFetchData, statesFetchData, updateCarModels, uploadFiles, postInvader} from '../../actions/cars';
+import Dropzone from 'react-dropzone';
 
 export class Add extends Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedState: '',
+      selectedMake: '',
+      selectedModel: '',
+      licPlate: ''
+    }
+    this.submitInvader = this.submitInvader.bind(this);
+  }
   handleMakeChange(e) {
+    const self=this;
     const carArr = store.getState().cars;
-    console.log('here is the carArr', carArr);
     for (let i = 0; i < carArr.length; i++) {
       if (carArr[i].make === e.target.value) {
         this.props.updateCarModels(carArr[i].models)
+        self.setState({
+          selectedMake: e.target.value
+        })
         return;
       }
     }
     console.log('sorry no models found');
   }
 
+  onImageDrop(files) {
+    this.props.uploadFiles(files)
+  }
 
   componentDidMount() {
     if(this.props.fetchCars) {
@@ -26,6 +42,29 @@ export class Add extends Component {
     } else {
       console.log('loading cars');
     }
+  }
+
+  handleLicStateChange(e) {
+    this.setState({
+      selectedState: e.target.value
+    })
+  }
+
+  handleModelChange(e) {
+    this.setState({
+      selectedModel: e.target.value
+    })
+  }
+
+  submitInvader(e){
+    e.preventDefault();
+    this.props.postInvader(this.state.licPlate, this.state.selectedMake, this.state.selectedModel, this.state.selectedState, this.props.imgUrl);
+  }
+
+  handleLicPlateChange(e){
+    this.setState({
+      licPlate: e.target.value
+    })
   }
 
   render(){
@@ -37,11 +76,11 @@ export class Add extends Component {
           <form id = "invaderSubmit">
             <div className="md-form form-sm">
               <i className="fa fa-drivers-license prefix"></i>
-                <input type="text" id="lic_plate_input" className="form-control" placeholder="License Plate" required/>
+                <input type="text" id="lic_plate_input" className="form-control" placeholder="License Plate" required onChange={this.handleLicPlateChange.bind(this)}/>
             </div>
             <div className="md-form form-sm">
             <i className="fa fa-map-marker prefix"></i>
-              <select name="state" id="stateBar" className="form-control" required>
+              <select name="state" id="stateBar" className="form-control" required onChange={this.handleLicStateChange.bind(this)}>
                 <option value=""> ---States --- </option>
                 {
                   this.props.states.map(function(state) {
@@ -63,7 +102,7 @@ export class Add extends Component {
             </div>
             <div className="md-form form-sm">
             <i className="fa fa-search-plus prefix"></i>
-              <select name="Model" id="modelBar" className="form-control" required>
+              <select name="Model" id="modelBar" className="form-control" required onChange={this.handleModelChange.bind(this)}>
                   <option value=""> ---Model --- </option>
                   {
                     this.props.carModels.map(function(model) {
@@ -72,11 +111,22 @@ export class Add extends Component {
                   }
               </select>
             </div>
-            <div id= "imageWidget">
-              <a href="#" id="upload_widget_opener"></a>
+            <div id= "Dropzone">
+              <Dropzone
+                multiple={false}
+                accept="image/*"
+                onDrop={this.onImageDrop.bind(this)}>
+                <p>Drop or select and image to upload.</p>
+                </Dropzone>
+                <div className="thumbnailHolder">
+                    {this.props.imgUrl === '' ? null :
+                  <div>
+                    <img src={this.props.imgUrl} />
+                  </div>}
+                </div>
             </div>
             <div className="text-center mt-1-half">
-              <button className="btn btn-info mb-2" type="submit">Submit Invader <i className="fa fa-send ml-1"></i></button>
+              <button className="btn btn-info mb-2" type="submit" onClick={this.submitInvader}>Submit Invader <i className="fa fa-send ml-1"></i></button>
             </div>
           </form>
         </ModalBody>
@@ -93,12 +143,15 @@ export class Add extends Component {
   }
 }
 
+
+
 const mapStateToProps = (state) => {
   return {
     cars: state.cars,
     states: state.states,
     isLoading: state.itemsIsLoading,
-    carModels: state.carModels
+    carModels: state.carModels,
+    imgUrl: state.imgUrl
   };
 };
 
@@ -107,7 +160,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCars : (url) => dispatch(carsFetchData(url)),
     fetchStates : (url) => dispatch(statesFetchData(url)),
-    updateCarModels: (carModels) => dispatch(updateCarModels(carModels))
+    updateCarModels: (carModels) => dispatch(updateCarModels(carModels)),
+    uploadFiles: (files) => dispatch(uploadFiles(files)),
+    postInvader: (plate, make, model, state, url) => dispatch(postInvader(plate, make, model, state, url))
   };
 };
 
