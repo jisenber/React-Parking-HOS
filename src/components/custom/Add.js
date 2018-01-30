@@ -3,6 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import {carsFetchData, statesFetchData, updateCarModels, uploadFiles, postInvader} from '../../actions/cars';
+import {toggleModal} from '../../actions/modal.js';
 import Dropzone from 'react-dropzone';
 
 export class Add extends Component {
@@ -16,6 +17,7 @@ export class Add extends Component {
     }
     this.submitInvader = this.submitInvader.bind(this);
   }
+
   handleMakeChange(e) {
     const self=this;
     const carArr = store.getState().cars;
@@ -57,9 +59,10 @@ export class Add extends Component {
   }
 
   submitInvader(e){
-    console.log('BUTTON HIT!')
     e.preventDefault();
     this.props.postInvader(this.state.licPlate,  this.state.selectedState, this.state.selectedMake, this.state.selectedModel, this.props.imgUrl);
+    const state = store.getState();
+    this.props.toggleModal(state.toggleModal);
   }
 
   handleLicPlateChange(e){
@@ -71,7 +74,7 @@ export class Add extends Component {
   render(){
     if(this.props.cars) {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
+      <Modal isOpen={this.props.canViewAddModal} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Submit an Invader</ModalHeader>
         <ModalBody>
           <form id = "invaderSubmit">
@@ -144,21 +147,21 @@ export class Add extends Component {
   }
 }
 
-
-
 const mapStateToProps = (state) => {
   return {
     cars: state.cars,
     states: state.states,
     isLoading: state.itemsIsLoading,
     carModels: state.carModels,
-    imgUrl: state.imgUrl
+    imgUrl: state.imgUrl,
+    canViewAddModal: state.toggleModal
   };
 };
 
 //same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
 const mapDispatchToProps = (dispatch) => {
   return {
+    toggleModal : (bool) => dispatch(toggleModal(bool)),
     fetchCars : (url) => dispatch(carsFetchData(url)),
     fetchStates : (url) => dispatch(statesFetchData(url)),
     updateCarModels: (carModels) => dispatch(updateCarModels(carModels)),

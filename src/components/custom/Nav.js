@@ -5,6 +5,9 @@ import onClickOutside from 'react-onclickoutside'; //vendor package to help with
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
+import {toggleModal} from '../../actions/modal.js';
+import {store} from '../../index.js';
+import {connect} from 'react-redux';
 import '../../style/style.css';
 
 //Nav Component
@@ -53,13 +56,14 @@ class Nav extends Component {
 
   //opens and closes Add modal
   toggleAdd(e) {
+    if(!e) return;
     e.preventDefault();
-    console.log("add")
     this.setState({
-      add: !this.state.add,
       login: false,
       register: false
     });
+    const state = store.getState();
+    this.props.toggleModal(state.toggleModal);
   }
 
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
@@ -94,7 +98,7 @@ class Nav extends Component {
         </Navbar>
         <Register isOpen = {this.state.register} toggle={this.toggleRegister} />
         <Login isOpen = {this.state.login} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
-        <Add isOpen = {this.state.add} toggle={this.toggleAdd} />
+        <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} modalOpen="true"/>
         <div className="fab">
           <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
           <i className="fa fa-plus"></i>
@@ -105,4 +109,19 @@ class Nav extends Component {
   }
 }
 
-export default onClickOutside(Nav);
+const mapStateToProps = (state) => {
+  return {
+    canViewAddModal: state.toggleModal,
+  };
+};
+
+//same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleModal : (bool) => dispatch(toggleModal(bool)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+
+//export default onClickOutside(Nav);
