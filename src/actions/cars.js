@@ -99,13 +99,14 @@ export function uploadFiles(files) {
 }
 
 export function postInvader(plate, state, make, model, url) {
+  console.log('POST INVADER HIT!')
   return (dispatch) => {
     console.log(plate, state, make, model, url);
     request.post('https://parking-hos-backend.herokuapp.com/submit')
       .set('Content-Type', 'application/json')
       .send({ img_url: url, lic_plate: plate, lic_state: state, make: make, model: model})
       .then((response) => {
-        console.log(response);
+        console.log('I have posted to the database!!', response);
       })
       .catch((err) => {
         console.log('this is an error:', err);

@@ -48,7 +48,7 @@ class Login extends Component {
           <form id = "forgotForm">
             <div className="md-form form-sm">
               <i className="fa fa-envelope prefix"></i>
-              <input type="text" id="loginEmail" className="form-control" placeholder="Your email"/>
+              <input type="text" id="forgotLoginEmail" className="form-control" placeholder="Your email"/>
             </div>
             <div className="text-center mt-2">
               <button type="submit" className="btn btn-info waves-effect waves-light" id="forgotBtn">Reset Password <i className="fa fa-sign-in ml-1"></i></button>
