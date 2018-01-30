@@ -57,8 +57,9 @@ export class Add extends Component {
   }
 
   submitInvader(e){
+    console.log('BUTTON HIT!')
     e.preventDefault();
-    this.props.postInvader(this.state.licPlate, this.state.selectedMake, this.state.selectedModel, this.state.selectedState, this.props.imgUrl);
+    this.props.postInvader(this.state.licPlate,  this.state.selectedState, this.state.selectedMake, this.state.selectedModel, this.props.imgUrl);
   }
 
   handleLicPlateChange(e){
@@ -162,7 +163,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchStates : (url) => dispatch(statesFetchData(url)),
     updateCarModels: (carModels) => dispatch(updateCarModels(carModels)),
     uploadFiles: (files) => dispatch(uploadFiles(files)),
-    postInvader: (plate, make, model, state, url) => dispatch(postInvader(plate, make, model, state, url))
+    postInvader: function(plate, state, make, model, url) {
+       dispatch(postInvader(plate, state, make, model, url))
+     }
   };
 };
 
