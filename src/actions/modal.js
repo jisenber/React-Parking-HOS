@@ -4,3 +4,10 @@ export function toggleModal(bool) {
     canViewAddModal: bool
   };
 }
+
+export function toggleLoginModal(bool) {
+  return {
+    type: 'TOGGLE_LOGIN',
+    canViewLoginModal: bool
+  }
+}

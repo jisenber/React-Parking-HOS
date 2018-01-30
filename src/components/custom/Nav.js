@@ -5,7 +5,7 @@ import onClickOutside from 'react-onclickoutside'; //vendor package to help with
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
-import {toggleModal} from '../../actions/modal.js';
+import {toggleModal, toggleLoginModal} from '../../actions/modal.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import '../../style/style.css';
@@ -18,7 +18,7 @@ class Nav extends Component {
 
     //login, register, and mobileNavOptions are used for toggling modal and nav views. backdrop is an mdb bootstrap thing
     this.state = {
-      login: false,
+      // login: false,
       register: false,
       backdrop: false,
       add: false,
@@ -49,9 +49,12 @@ class Nav extends Component {
 
   //opens and closes login modal
   toggleLogin() {
-    this.setState({
-      login: !this.state.login
-    });
+    const state = store.getState();
+    this.props.toggleLoginModal(state.toggleLoginModal);
+    console.log('getting Login State', state);
+    // this.setState({
+    //   login: !this.state.login
+    // });
   }
 
   //opens and closes Add modal
@@ -97,7 +100,7 @@ class Nav extends Component {
           </div>
         </Navbar>
         <Register isOpen = {this.state.register} toggle={this.toggleRegister} />
-        <Login isOpen = {this.state.login} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
+        <Login isOpen = {this.props.canViewLoginModal} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
         <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} modalOpen="true"/>
         <div className="fab">
           <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
@@ -112,6 +115,7 @@ class Nav extends Component {
 const mapStateToProps = (state) => {
   return {
     canViewAddModal: state.toggleModal,
+    canViewLoginModal: state.toggleLoginModal
   };
 };
 
@@ -119,6 +123,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
+    toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool))
   };
 };
 

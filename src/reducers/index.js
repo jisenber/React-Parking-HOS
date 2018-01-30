@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import {cars, carsAreLoading, carModels, imgUrl} from './cars';
 import {states} from './states';
 import {invaderList} from './invaders';
-import {toggleModal} from './modal';
+import {toggleModal, toggleLoginModal} from './modal';
 
 export default combineReducers({
   cars,
@@ -11,5 +11,6 @@ export default combineReducers({
   carModels,
   imgUrl,
   invaderList,
-  toggleModal
+  toggleModal,
+  toggleLoginModal
 });

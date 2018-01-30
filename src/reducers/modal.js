@@ -6,3 +6,12 @@ export function toggleModal(state=false, action) {
     return state;
   }
 }
+
+export function toggleLoginModal(state=false, action) {
+  switch(action.type) {
+  case 'TOGGLE_LOGIN':
+    return !action.canViewLoginModal;
+  default:
+    return state;
+  }
+}
