@@ -1,0 +1,16 @@
+.invaderContainer {
+  display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  justify-content: space-evenly;
+}
+
+.singleInvader {
+  max-width: 20%;
+  margin: 0.5em;
+  padding: 0.5em;
+ }
+
+ .card-body {
+   min-height: 200px;
+ }
