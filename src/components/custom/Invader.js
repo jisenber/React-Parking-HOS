@@ -3,6 +3,8 @@ import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact
 import {connect} from 'react-redux';
 import {fetchInvadersData} from '../../actions/invaders';
 import {store} from '../../index.js';
+import '../../style/invader-list-style.css';
+
 
 const cardStyle = {
   fontSize: '1.1rem'
@@ -30,13 +32,11 @@ export class Invader extends Component {
   render () {
     if(Array.isArray(this.props.invaderList)) {
     return(
-      <div className="container">
-        <div className="row mt-5">
-          <div className="col" style={{ maxWidth: '23rem' }}>
+        <div className="row mt-5" className="invaderContainer">
           {
             this.props.invaderList.map(function(invader){
-              return ( <div key={invader._id}>
-              <Card>
+              return ( <div key={invader._id} className="singleInvader">
+              <Card className="invaderCard">
                 <CardImage className="img-fluid" src={invader.img_url}/>
                   <CardBody>
                     <CardTitle>{invader.lic_plate}</CardTitle>
@@ -48,9 +48,7 @@ export class Invader extends Component {
             })
           }
           </div>
-        </div>
-      </div>
-    );
+        );
     } else {
       return (
         <h1>Not working</h1>
