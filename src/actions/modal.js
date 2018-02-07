@@ -11,3 +11,10 @@ export function toggleLoginModal(bool) {
     canViewLoginModal: bool
   };
 }
+
+export function toggleRegisterModal(bool) {
+  return {
+    type: 'TOGGLE_REGISTER',
+    canViewRegisterModal: bool
+  }
+}

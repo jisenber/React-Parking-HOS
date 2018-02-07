@@ -1,17 +1,21 @@
 export function toggleModal(state = {
   canViewAddModal: false,
-  canViewLoginModal:false,
+  canViewLoginModal: false,
+  canViewRegisterModal: false,
 }, action) {
   switch(action.type) {
   case 'TOGGLE_MODAL':
-  console.log('here is canViewAddModal', !action.canViewAddModal);
     return Object.assign({}, state, {
       canViewAddModal: !action.canViewAddModal,
     });
   case 'TOGGLE_LOGIN':
-  console.log('here is canViewLoginModal', !action.canViewLoginModal);
     return Object.assign({}, state, {
       canViewLoginModal: !action.canViewLoginModal,
+    });
+  case 'TOGGLE_REGISTER':
+  console.log('here is canViewRegisterModal', !action.canViewRegisterModal);
+    return Object.assign({}, state, {
+      canViewRegisterModal: !action.canViewRegisterModal,
     });
   default:
     return state;

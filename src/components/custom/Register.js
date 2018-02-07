@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
+import {connect} from 'react-redux';
+import {toggleModal} from '../../actions/modal.js';
 
 //Registration modal component. Only need HTML for now, but incorporating state may be necessary when we implement authentication. props are passed in from Nav component and they can take the form of any object (including functions)
 class Register extends Component {
@@ -19,7 +21,7 @@ class Register extends Component {
             </div>
             <div className="md-form form-sm">
               <i className="fa fa-lock prefix"></i>
-              <input type="password" id="registerPassword" className="form-control" placeholder="Repeat password"/>
+              <input type="password" id="repeatPassword" className="form-control" placeholder="Repeat password"/>
             </div>
             <div className="text-center mt-2">
               <button type="submit" className="btn btn-info waves-effect waves-light" id="registerBtn">Sign Up<i className="fa fa-sign-in ml-1"></i></button>
@@ -34,5 +36,17 @@ class Register extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    canViewRegisterModal: state.toggleModal.canViewRegisterModal
+  };
+};
 
-export default Register;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleModal : (bool) => dispatch(toggleModal(bool)),
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
