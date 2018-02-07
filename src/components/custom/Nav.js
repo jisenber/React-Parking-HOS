@@ -3,7 +3,7 @@ import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'm
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
-import {toggleModal, toggleLoginModal} from '../../actions/modal.js';
+import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import '../../style/style.css';
@@ -16,8 +16,8 @@ class Nav extends Component {
 
     //login, register, and mobileNavOptions are used for toggling modal and nav views. backdrop is an mdb bootstrap thing
     this.state = {
-      register: false,
-      backdrop: false,
+      // register: false,
+      // backdrop: false,
       mobileNavOptions: false
     };
 
@@ -38,9 +38,8 @@ class Nav extends Component {
 
   //opens and closes registration modal
   toggleRegister() {
-    this.setState({
-      register: !this.state.register
-    });
+    const state = store.getState();
+    this.props.toggleRegisterModal(state.toggleModal.canViewRegisterModal);
   }
 
   //opens and closes login modal
@@ -86,7 +85,7 @@ class Nav extends Component {
             </NavbarNav>
           </div>
         </Navbar>
-        <Register isOpen = {this.state.register} toggle={this.toggleRegister} />
+        <Register isOpen = {this.props.canViewRegisterModal} toggle={this.toggleRegister} />
         <Login isOpen = {this.props.canViewLoginModal} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
         <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} modalOpen="true"/>
         <div className="fab">
@@ -102,7 +101,8 @@ class Nav extends Component {
 const mapStateToProps = (state) => {
   return {
     canViewAddModal: state.toggleModal.canViewAddModal,
-    canViewLoginModal: state.toggleModal.canViewLoginModal
+    canViewLoginModal: state.toggleModal.canViewLoginModal,
+    canViewRegisterModal: state.toggleModal.canViewRegisterModal
   };
 };
 
@@ -110,7 +110,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
-    toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool))
+    toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
+    toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool))
   };
 };
 

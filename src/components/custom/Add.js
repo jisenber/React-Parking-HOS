@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import {carsFetchData, statesFetchData, updateCarModels, uploadFiles, postInvader} from '../../actions/cars';
-import {toggleModal, toggleLoginModal} from '../../actions/modal.js';
+import {toggleModal} from '../../actions/modal.js';
 import Dropzone from 'react-dropzone';
 
 export class Add extends Component {
@@ -162,7 +162,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
-    toggleLoginModal: (bool) => dispatch(toggleLoginModal(bool)),
     fetchCars : (url) => dispatch(carsFetchData(url)),
     fetchStates : (url) => dispatch(statesFetchData(url)),
     updateCarModels: (carModels) => dispatch(updateCarModels(carModels)),

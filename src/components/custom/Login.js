@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
+import {connect} from 'react-redux';
+import {toggleModal} from '../../actions/modal.js';
 
 //Very similar to Registration modal in terms of HTML content. All props received from parent Component.
 class Login extends Component {
@@ -60,7 +62,17 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    canViewLoginModal: state.toggleModal.canViewLoginModal
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleModal : (bool) => dispatch(toggleModal(bool)),
+  };
+};
 
 
-
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
