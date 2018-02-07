@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-
 import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'mdbreact';
-import onClickOutside from 'react-onclickoutside'; //vendor package to help with hiding the mobile nav when displayed
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
@@ -18,10 +16,8 @@ class Nav extends Component {
 
     //login, register, and mobileNavOptions are used for toggling modal and nav views. backdrop is an mdb bootstrap thing
     this.state = {
-      // login: false,
       register: false,
       backdrop: false,
-      add: false,
       mobileNavOptions: false
     };
 
@@ -50,23 +46,15 @@ class Nav extends Component {
   //opens and closes login modal
   toggleLogin() {
     const state = store.getState();
-    this.props.toggleLoginModal(state.toggleLoginModal);
-    console.log('getting Login State', state);
-    // this.setState({
-    //   login: !this.state.login
-    // });
+    this.props.toggleLoginModal(state.toggleModal.canViewLoginModal);
   }
 
   //opens and closes Add modal
   toggleAdd(e) {
     if(!e) return;
     e.preventDefault();
-    this.setState({
-      login: false,
-      register: false
-    });
     const state = store.getState();
-    this.props.toggleModal(state.toggleModal);
+    this.props.toggleModal(state.toggleModal.canViewAddModal);
   }
 
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
@@ -76,7 +64,6 @@ class Nav extends Component {
       mobileNavOptions: !this.state.mobileNavOptions
     });
   }
-
 
   render() {
     return (
@@ -114,8 +101,8 @@ class Nav extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    canViewAddModal: state.toggleModal,
-    canViewLoginModal: state.toggleLoginModal
+    canViewAddModal: state.toggleModal.canViewAddModal,
+    canViewLoginModal: state.toggleModal.canViewLoginModal
   };
 };
 
