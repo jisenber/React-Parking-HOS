@@ -5,6 +5,41 @@ import {toggleModal} from '../../actions/modal.js';
 
 //Registration modal component. Only need HTML for now, but incorporating state may be necessary when we implement authentication. props are passed in from Nav component and they can take the form of any object (including functions)
 class Register extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      repeatPassword: ''
+    }
+    this.signUp = this.signUp.bind(this);
+  }
+
+  signUp(e){
+    e.preventDefault();
+    const state = store.getState();
+    this.props.toggleModal(state.toggleModal);
+  }
+
+  handleEmailChange(e){
+    this.setState({
+      email: e.target.value
+    })
+  }
+
+  handlePasswordChange(e){
+    this.setState({
+      password: e.target.value
+    })
+  }
+
+  handleRepeatPasswordChange(e){
+    this.setState({
+      repeatPassword: e.target.value
+    })
+  }
+
+
   render () {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
@@ -24,7 +59,7 @@ class Register extends Component {
               <input type="password" id="repeatPassword" className="form-control" placeholder="Repeat password"/>
             </div>
             <div className="text-center mt-2">
-              <button type="submit" className="btn btn-info waves-effect waves-light" id="registerBtn">Sign Up<i className="fa fa-sign-in ml-1"></i></button>
+              <button type="submit" className="btn btn-info waves-effect waves-light" id="registerBtn" onClick={this.signUp}>Sign Up<i className="fa fa-sign-in ml-1"></i></button>
             </div>
           </form>
         </ModalBody>
