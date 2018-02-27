@@ -9,7 +9,7 @@ export function signUpUserSuccess(username) {
 }
 
 
-export function signUpUser(userName, password) {
+export function signUpUser(userName, password, cb) {
   return (dispatch) => {
     request.post('https://parking-hos-backend.herokuapp.com/signup')
       .set('Content-Type', 'application/json')
@@ -17,6 +17,7 @@ export function signUpUser(userName, password) {
       .then((response) => {
         dispatch(signUpUserSuccess(response.body.username))
         dispatch(toggleRegisterModal(true))
+        cb(response.body.username);
       })
       .catch((err) => {
         console.log('this is an error:', err);
