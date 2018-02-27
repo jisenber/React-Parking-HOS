@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {connect} from 'react-redux';
 import {toggleModal} from '../../actions/modal.js';
+import {login} from '../../actions/auth.js'
 
 //Very similar to Registration modal in terms of HTML content. All props received from parent Component.
 class Login extends Component {
@@ -10,9 +11,11 @@ class Login extends Component {
     super(props);
 
     this.state = {
+      userName: '',
+      password: '',
       forgot: false
     };
-
+    this.loginUser = this.loginUser.bind(this);
     this.toggleForgot = this.toggleForgot.bind(this);
   }
 
@@ -20,6 +23,23 @@ class Login extends Component {
     this.setState({
       forgot: !this.state.forgot
     });
+  }
+
+  handleUserChange(e){
+    this.setState({
+      userName: e.target.value
+    })
+  }
+
+  handlePasswordChange(e){
+    this.setState({
+      password: e.target.value
+    })
+  }
+
+  loginUser(e){
+    e.preventDefault();
+    this.props.loginUser(this.state.userName, this.state.password)
   }
 
   render () {
@@ -30,14 +50,14 @@ class Login extends Component {
           <form id = "loginForm">
             <div className="md-form form-sm">
               <i className="fa fa-envelope prefix"></i>
-              <input type="text" id="loginEmail" className="form-control" placeholder="Your email"/>
+              <input type="text" id="loginEmail" className="form-control" placeholder="Your email" onChange={this.handleUserChange.bind(this)}/>
             </div>
             <div className="md-form form-sm">
               <i className="fa fa-lock prefix"></i>
-              <input type="password" id="loginPassword" className="form-control" placeholder="Your password"/>
+              <input type="password" id="loginPassword" className="form-control" placeholder="Your password" onChange={this.handlePasswordChange.bind(this)} />
             </div>
             <div className="text-center mt-2">
-              <button type="submit" className="btn btn-info waves-effect waves-light" id="loginBtn">Log in <i className="fa fa-sign-in ml-1"></i></button>
+              <button type="submit" className="btn btn-info waves-effect waves-light" id="loginBtn" onClick={this.loginUser}>Log in <i className="fa fa-sign-in ml-1"></i></button>
             </div>
           </form>
         </ModalBody>
@@ -71,6 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
+    loginUser: (userName, password) => dispatch(login(userName, password))
   };
 };
 
