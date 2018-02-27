@@ -3,6 +3,7 @@ import {cars, carsAreLoading, carModels, imgUrl} from './cars';
 import {states} from './states';
 import {invaderList} from './invaders';
 import {toggleModal} from './modal';
+import {userRegistrationHandler} from './register';
 
 export default combineReducers({
   cars,
@@ -11,5 +12,6 @@ export default combineReducers({
   carModels,
   imgUrl,
   invaderList,
-  toggleModal
+  toggleModal,
+  userRegistrationHandler
 });

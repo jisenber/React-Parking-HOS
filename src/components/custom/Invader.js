@@ -40,7 +40,8 @@ export class Invader extends Component {
                 <CardImage className="img-fluid" src={invader.img_url}/>
                   <CardBody>
                     <CardTitle>{invader.lic_plate}</CardTitle>
-                    <CardText style={cardStyle}>{invader.lic_state} - {invader.make}: {invader.model}</CardText>
+                    <CardText style={cardStyle}>{invader.lic_state}</CardText>
+                    <CardText style={cardStyle}>{invader.make}: {invader.model}</CardText>
                     <Button href="#">Shame!</Button>
                   </CardBody>
               </Card></div>

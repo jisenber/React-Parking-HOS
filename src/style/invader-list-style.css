@@ -6,7 +6,8 @@
 }
 
 .singleInvader {
-  max-width: 20%;
+  min-width: 175px;
+  max-width: 300px;
   margin: 0.5em;
   padding: 0.5em;
  }
