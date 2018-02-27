@@ -4,25 +4,21 @@ import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
-import {setCurrentUser} from '../../actions/register.js'
+import {checkCurrentUser} from '../../actions/auth.js';
+import {setCurrentUser} from '../../actions/register.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import '../../style/style.css';
 
 //Nav Component
 class Nav extends Component {
-  //two lines below are part of most every React component that has its own state. "constructor" is a specific to es6 classes and "super" allows this class to access methods of its parent class (which is the React Component class)
   constructor(props) {
     super(props);
 
-    //login, register, and mobileNavOptions are used for toggling modal and nav views. backdrop is an mdb bootstrap thing
     this.state = {
-      // register: false,
-      // backdrop: false,
       mobileNavOptions: false
     };
 
-    //binds the function to the component. Without these bindings 'this' would not have the proper reference
     this.toggleRegister = this.toggleRegister.bind(this);
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
@@ -36,12 +32,18 @@ class Nav extends Component {
     });
   }
 
-  componentWillMount() {
-    if (localStorage.getItem('spaceInvaders')){
-      var currentUser = localStorage.getItem('spaceInvaders');
-      this.props.setCurrentUser(currentUser)
-    }
-  }
+  // componentWillMount() {
+  //   if (localStorage.getItem('spaceInvaders')){
+  //     var currentUser = localStorage.getItem('spaceInvaders');
+  //     this.props.setCurrentUser(currentUser)
+  //   }
+  // }
+
+  // componentDidMount() {
+  //   this.props.checkCurrentUser(function(response) {
+  //     console.log('here is the response from the component', response);
+  //   });
+  // }
 
   //opens and closes registration modal
   toggleRegister() {
@@ -116,6 +118,7 @@ const mapStateToProps = (state) => {
 //same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
 const mapDispatchToProps = (dispatch) => {
   return {
+    checkCurrentUser : () => dispatch(checkCurrentUser()),
     toggleModal : (bool) => dispatch(toggleModal(bool)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
