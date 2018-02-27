@@ -17,17 +17,26 @@ class Register extends Component {
     this.signUp = this.signUp.bind(this);
   }
 
+  componentWillReceiveProps(){
+    var state = store.getState();
+    console.log(state);
+  }
+
   signUp(e){
     e.preventDefault();
     if (this.state.password !== this.state.repeatPassword){
       alert("Password must match");
       return
     }
-    this.props.signUpUser(this.state.userName, this.state.password, function(username) {
-      localStorage.setItem('spaceInvaders', username);
-    })
+    this.props.signUpUser(this.state.userName, this.state.password);
     const state = store.getState();
     this.props.toggleModal(state.toggleModal);
+
+    if (this.props.userRegistrationHandler) {
+      console.log('I am in the sign up method', this.props.userRegistrationHandler.user.body.username);
+      localStorage.setItem('spaceInvaders', this.props.userRegistrationHandler.user.body.username)
+    }
+
   }
 
   handleUserChange(e){
@@ -47,6 +56,7 @@ class Register extends Component {
       repeatPassword: e.target.value
     })
   }
+
 
   render () {
     return (
@@ -89,7 +99,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
-    signUpUser : (userName, password, cb) => dispatch(signUpUser(userName, password, cb))
+    signUpUser : (userName, password) => dispatch(signUpUser(userName, password))
   };
 };
 

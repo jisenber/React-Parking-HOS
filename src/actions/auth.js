@@ -1,4 +1,4 @@
-// import request from 'superagent';
+import request from 'superagent';
 //
 //
 // export function checkCurrentUser(cb) {
@@ -13,3 +13,25 @@
 //       });
 //   };
 // }
+
+export function loginUserSuccess(passportResponse){
+  return{
+    type: 'USER_REGISTERED',
+    passportResponse
+  }
+}
+
+export function login(userName, password){
+  return (dispatch) => {
+    request.post('https://parking-hos-backend.herokuapp.com/login')
+      .set('Content-Type', 'application/json')
+      .send({username: userName, password: password})
+      .then((response) => {
+        console.log('heres the login response', response);
+        dispatch(loginUserSuccess(response))
+      })
+      .catch((err) => {
+        console.log('error logging user in', err);
+      })
+  }
+}
