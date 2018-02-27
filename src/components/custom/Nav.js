@@ -4,6 +4,7 @@ import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
+import {setCurrentUser} from '../../actions/register.js'
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import '../../style/style.css';
@@ -29,11 +30,17 @@ class Nav extends Component {
 
   }
 
-
   handleClickOutside() {
     this.setState ({
       mobileNavOptions: false,
     });
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('spaceInvaders')){
+      var currentUser = localStorage.getItem('spaceInvaders');
+      this.props.setCurrentUser(currentUser)
+    }
   }
 
   //opens and closes registration modal
@@ -111,7 +118,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
-    toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool))
+    toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
+    setCurrentUser : (username) => dispatch(setCurrentUser(username))
   };
 };
 
