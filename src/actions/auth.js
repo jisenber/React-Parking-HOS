@@ -1,4 +1,5 @@
 import request from 'superagent';
+import {toggleLoginModal} from './modal';
 //
 //
 // export function checkCurrentUser(cb) {
@@ -14,10 +15,18 @@ import request from 'superagent';
 //   };
 // }
 
-export function loginUserSuccess(passportResponse){
+export function isLoggedIn(bool) {
+  console.log("isLoggedIn has been hit", bool);
+  return {
+    type: 'LOGGED_IN',
+    isLoggedIn: bool
+  };
+}
+
+export function loginUserSuccess(username){
   return{
-    type: 'USER_REGISTERED',
-    passportResponse
+    type: 'USER_ESTABLISHED',
+    username
   }
 }
 
@@ -27,8 +36,8 @@ export function login(userName, password){
       .set('Content-Type', 'application/json')
       .send({username: userName, password: password})
       .then((response) => {
-        console.log('heres the login response', response);
-        dispatch(loginUserSuccess(response))
+        dispatch(loginUserSuccess(response.body.username))
+        dispatch(toggleLoginModal(true))
       })
       .catch((err) => {
         console.log('error logging user in', err);

@@ -4,7 +4,7 @@ import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
-import {checkCurrentUser} from '../../actions/auth.js';
+import {isLoggedIn} from '../../actions/auth.js';
 import {setCurrentUser} from '../../actions/register.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -32,12 +32,23 @@ class Nav extends Component {
     });
   }
 
-  // componentWillMount() {
-  //   if (localStorage.getItem('spaceInvaders')){
-  //     var currentUser = localStorage.getItem('spaceInvaders');
-  //     this.props.setCurrentUser(currentUser)
+  // componentDidMount() {
+  //   const state = store.getState();
+  //   if (state.currentUser) {
+  //     console.log("conditional is true");
+  //     this.props.isLoggedIn(true);
   //   }
   // }
+
+  componentWillReceiveProps() {
+    const state = store.getState();
+    console.log('log store', state);
+    if (state.currentUser) {
+      console.log("conditional is true");
+      this.props.isLoggedIn(true);
+      console.log("loggedIn state", this.props.userLoggedIn);
+  }
+};
 
   // componentDidMount() {
   //   this.props.checkCurrentUser(function(response) {
@@ -85,12 +96,22 @@ class Nav extends Component {
           </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
-              <NavItem>
-                <Button onClick={this.toggleLogin}>Login</Button>
-              </NavItem>
-              <NavItem>
-                <Button onClick={this.toggleRegister}>Register</Button>
-              </NavItem>
+              <div className={this.props.userLoggedIn ? "notLoggedIn" : "loggedIn"}>
+                <NavItem>
+                  <Button onClick={this.toggleLogin}>Login</Button>
+                </NavItem>
+                <NavItem>
+                  <Button onClick={this.toggleRegister}>Register</Button>
+                </NavItem>
+              </div>
+              <div className={this.props.userLoggedIn ? "loggedIn" : "notLoggedIn"}>
+                <NavItem>
+                  <Button>View Profile</Button>
+                </NavItem>
+                <NavItem>
+                  <Button>Log Out</Button>
+                </NavItem>
+              </div>
             </NavbarNav>
           </div>
         </Navbar>
@@ -111,14 +132,15 @@ const mapStateToProps = (state) => {
   return {
     canViewAddModal: state.toggleModal.canViewAddModal,
     canViewLoginModal: state.toggleModal.canViewLoginModal,
-    canViewRegisterModal: state.toggleModal.canViewRegisterModal
+    canViewRegisterModal: state.toggleModal.canViewRegisterModal,
+    userLoggedIn: state.isLoggedIn
   };
 };
 
 //same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkCurrentUser : () => dispatch(checkCurrentUser()),
+    isLoggedIn : (bool) => dispatch(isLoggedIn(bool)),
     toggleModal : (bool) => dispatch(toggleModal(bool)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
