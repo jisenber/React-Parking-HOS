@@ -1,4 +1,5 @@
 import request from 'superagent';
+import {toggleLoginModal} from './modal';
 //
 //
 // export function checkCurrentUser(cb) {
@@ -15,27 +16,28 @@ import request from 'superagent';
 // }
 
 export function isLoggedIn(bool) {
+  console.log("isLoggedIn has been hit", bool);
   return {
     type: 'LOGGED_IN',
-    bool
+    isLoggedIn: bool
   };
 }
 
-export function loginUserSuccess(passportResponse){
+export function loginUserSuccess(username){
   return{
     type: 'USER_ESTABLISHED',
-    passportResponse
+    username
   }
 }
 
 export function login(userName, password){
   return (dispatch) => {
-    request.post('http://localhost:4200/login')
+    request.post('https://parking-hos-backend.herokuapp.com/login')
       .set('Content-Type', 'application/json')
       .send({username: userName, password: password})
       .then((response) => {
-        console.log('heres the login response', response);
-        dispatch(loginUserSuccess(response))
+        dispatch(loginUserSuccess(response.body.username))
+        dispatch(toggleLoginModal(true))
       })
       .catch((err) => {
         console.log('error logging user in', err);

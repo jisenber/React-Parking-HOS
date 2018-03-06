@@ -7,3 +7,15 @@ export function currentUser(state='', action) {
     return state;
   }
 }
+
+export function isLoggedIn(state=false, action) {
+  console.log("actionType", action.type);
+  switch(action.type) {
+    case 'LOGGED_IN':
+    console.log("reducer hit", action.isLoggedIn);
+      return action.isLoggedIn;
+
+    default:
+      return state;
+  }
+}

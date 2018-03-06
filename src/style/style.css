@@ -38,6 +38,10 @@ li.navList:hover {
   max-width: 27em;
 }
 
+.notLoggedIn {
+  display: none;
+}
+
 #forgot {
   margin-left: .75em;
   width: 95%;
