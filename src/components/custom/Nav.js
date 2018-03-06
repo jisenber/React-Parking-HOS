@@ -4,7 +4,7 @@ import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
-import {checkCurrentUser} from '../../actions/auth.js';
+import {isLoggedIn} from '../../actions/auth.js';
 import {setCurrentUser} from '../../actions/register.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -33,9 +33,9 @@ class Nav extends Component {
   }
 
   // componentWillMount() {
-  //   if (localStorage.getItem('spaceInvaders')){
-  //     var currentUser = localStorage.getItem('spaceInvaders');
-  //     this.props.setCurrentUser(currentUser)
+  //   const state = store.getState();
+  //   if (state.userRegistrationHandler.user) {
+  //     this.props.isLoggedIn(true);
   //   }
   // }
 
@@ -118,7 +118,7 @@ const mapStateToProps = (state) => {
 //same as above that this method is for react-redux. Maps the dispatch action to a component's props. That's why you can call this.props.fetchData()
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkCurrentUser : () => dispatch(checkCurrentUser()),
+    //isLoggedIn : (bool) => dispatch(isLoggedIn(bool)),
     toggleModal : (bool) => dispatch(toggleModal(bool)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),

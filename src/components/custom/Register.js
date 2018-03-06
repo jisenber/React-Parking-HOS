@@ -32,11 +32,9 @@ class Register extends Component {
     const state = store.getState();
     this.props.toggleModal(state.toggleModal);
 
-    if (this.props.userRegistrationHandler) {
-      console.log('I am in the sign up method', this.props.userRegistrationHandler.user.body.username);
-      localStorage.setItem('spaceInvaders', this.props.userRegistrationHandler.user.body.username)
-    }
-
+    // if (this.props.userRegistrationHandler) {
+    //   localStorage.setItem('spaceInvaders', this.props.userRegistrationHandler.user.body.username)
+    // }
   }
 
   handleUserChange(e){
@@ -92,7 +90,7 @@ class Register extends Component {
 const mapStateToProps = (state) => {
   return {
     canViewRegisterModal: state.toggleModal.canViewRegisterModal,
-    currentUser: state.userRegistrationHandler.username
+    currentUser: state.username
   };
 };
 

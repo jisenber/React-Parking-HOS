@@ -14,16 +14,23 @@ import request from 'superagent';
 //   };
 // }
 
+export function isLoggedIn(bool) {
+  return {
+    type: 'LOGGED_IN',
+    bool
+  };
+}
+
 export function loginUserSuccess(passportResponse){
   return{
-    type: 'USER_REGISTERED',
+    type: 'USER_ESTABLISHED',
     passportResponse
   }
 }
 
 export function login(userName, password){
   return (dispatch) => {
-    request.post('https://parking-hos-backend.herokuapp.com/login')
+    request.post('http://localhost:4200/login')
       .set('Content-Type', 'application/json')
       .send({username: userName, password: password})
       .then((response) => {
