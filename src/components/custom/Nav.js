@@ -4,7 +4,7 @@ import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
-import {isLoggedIn} from '../../actions/auth.js';
+import {isLoggedIn, logOut} from '../../actions/auth.js';
 import {setCurrentUser} from '../../actions/register.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -26,35 +26,13 @@ class Nav extends Component {
 
   }
 
-  handleClickOutside() {
-    this.setState ({
-      mobileNavOptions: false,
-    });
-  }
-
-  // componentDidMount() {
-  //   const state = store.getState();
-  //   if (state.currentUser) {
-  //     console.log("conditional is true");
-  //     this.props.isLoggedIn(true);
-  //   }
-  // }
-
   componentWillReceiveProps() {
     const state = store.getState();
-    console.log('log store', state);
+    console.log('here is the state: ', state)
     if (state.currentUser) {
-      console.log("conditional is true");
       this.props.isLoggedIn(true);
-      console.log("loggedIn state", this.props.userLoggedIn);
   }
-};
-
-  // componentDidMount() {
-  //   this.props.checkCurrentUser(function(response) {
-  //     console.log('here is the response from the component', response);
-  //   });
-  // }
+}
 
   //opens and closes registration modal
   toggleRegister() {
@@ -74,6 +52,11 @@ class Nav extends Component {
     e.preventDefault();
     const state = store.getState();
     this.props.toggleModal(state.toggleModal.canViewAddModal);
+  }
+
+  logOut(e) {
+    e.preventDefault();
+    this.props.logOut();
   }
 
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
@@ -96,7 +79,7 @@ class Nav extends Component {
           </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
-              <div className={this.props.userLoggedIn ? "notLoggedIn" : "loggedIn"}>
+              <div className={this.props.userLoggedIn ? "hideMe" : "loggedIn"}>
                 <NavItem>
                   <Button onClick={this.toggleLogin}>Login</Button>
                 </NavItem>
@@ -104,12 +87,12 @@ class Nav extends Component {
                   <Button onClick={this.toggleRegister}>Register</Button>
                 </NavItem>
               </div>
-              <div className={this.props.userLoggedIn ? "loggedIn" : "notLoggedIn"}>
+              <div className={this.props.userLoggedIn ? "loggedIn" : "hideMe"}>
                 <NavItem>
                   <Button>View Profile</Button>
                 </NavItem>
                 <NavItem>
-                  <Button>Log Out</Button>
+                  <Button onClick={this.props.logOut}>Log Out</Button>
                 </NavItem>
               </div>
             </NavbarNav>
@@ -144,7 +127,8 @@ const mapDispatchToProps = (dispatch) => {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
-    setCurrentUser : (username) => dispatch(setCurrentUser(username))
+    setCurrentUser : (username) => dispatch(setCurrentUser(username)),
+    logOut : () => dispatch(logOut())
   };
 };
 

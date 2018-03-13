@@ -15,8 +15,21 @@ import {toggleLoginModal} from './modal';
 //   };
 // }
 
+export function logOut() {
+  return (dispatch) => {
+    dispatch(isLoggedIn(false));
+    dispatch(nullifyUser());
+  };
+}
+
+export function nullifyUser() {
+  return {
+    type: 'USER_NULLIFIED',
+    username: ''
+  };
+}
+
 export function isLoggedIn(bool) {
-  console.log("isLoggedIn has been hit", bool);
   return {
     type: 'LOGGED_IN',
     isLoggedIn: bool
