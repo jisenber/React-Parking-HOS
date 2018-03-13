@@ -103,10 +103,10 @@ class Nav extends Component {
         <Register isOpen = {this.props.canViewRegisterModal} toggle={this.toggleRegister} />
         <Login isOpen = {this.props.canViewLoginModal} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
         <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} modalOpen="true"/>
-        <div className="fab">
-          <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
-          <i className="fa fa-plus"></i>
-          </Button>
+        <div className={this.props.userLoggedIn ? "fab" : "hideMe"}>
+        <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
+        <i className="fa fa-plus"></i>
+        </Button>
         </div>
       </div>
     );
