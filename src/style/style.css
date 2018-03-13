@@ -42,6 +42,10 @@ li.navList:hover {
   display: none;
 }
 
+.loggedIn {
+  display: inline-flex;
+}
+
 #forgot {
   margin-left: .75em;
   width: 95%;
