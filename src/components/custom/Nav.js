@@ -74,8 +74,10 @@ class Nav extends Component {
           <NavbarBrand href="/">Space Invaderz</NavbarBrand>
           <NavbarToggler onClick={this.toggleMobileNav}/>
           <ul className="dropdown-menu" style={{display: this.state.mobileNavOptions ? 'block' : 'none'}}>
-            <li className ="navList" onClick={this.toggleLogin}><b>Login</b></li>
-            <li className ="navList" onClick={this.toggleRegister}><b>Register</b></li>
+            <li className ={this.props.userLoggedIn? "hideMe" : "navList"} onClick={this.toggleLogin}><b>Login</b></li>
+            <li className ={this.props.userLoggedIn ? "hideMe" : "navList"} onClick={this.toggleRegister}><b>Register</b></li>
+            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"}><b>View Profile</b></li>
+            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.props.logOut}><b>log out</b></li>
           </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
