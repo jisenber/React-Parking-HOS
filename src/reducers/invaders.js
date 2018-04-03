@@ -6,3 +6,12 @@ export function invaderList(state=[], action) {
     return state;
   }
 }
+
+export function shameCount(state='', action) {
+  switch(action.type) {
+    case 'INVADER_SHAME_UPDATE':
+      return action.shameCount;
+    default:
+      return state;
+  }
+}

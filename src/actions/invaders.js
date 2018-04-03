@@ -1,9 +1,17 @@
 import fetch from 'isomorphic-fetch';
+import request from 'superagent';
 
 export function invadersFetchDataSuccess(invaders) {
   return {
     type: 'INVADER_FETCH_DATA_SUCCESS',
     invaders
+  };
+}
+
+export function invaderShameUpdate(shameCount) {
+  return {
+    type: 'INVADER_SHAME_UPDATE',
+    shameCount
   };
 }
 
@@ -21,4 +29,20 @@ export function fetchInvadersData(url) {
       console.log(err);
     });
   };
+}
+
+export function postShame(invaderId, userName) {
+  console.log(invaderId, userName);
+  return (dispatch) => {
+    request.post(`https://parking-hos-backend.herokuapp.com/shame/${invaderId}`)
+    .set('Content-Type', 'application/json')
+    .send({user: userName})
+    .then((response) => {
+      dispatch(fetchInvadersData('https://parking-hos-backend.herokuapp.com/invaders'))
+      console.log('this is the response', response.body);
+    })
+    .catch((err) => {
+      console.log('error posting ', err);
+    })
+  }
 }
