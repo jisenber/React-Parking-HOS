@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact';
 import {connect} from 'react-redux';
-import {fetchInvadersData} from '../../actions/invaders';
+import {fetchInvadersData, postShame} from '../../actions/invaders';
 import {store} from '../../index.js';
 import '../../style/invader-list-style.css';
 
@@ -13,11 +13,16 @@ const cardStyle = {
 
 //The Invader List component will iterate over the array of objects (Invaders) it gets from the back end and the props of each object will be fed into this Invader Component.
 export class Invader extends Component {
+  constructor(props){
+    super(props);
+    this.shameInvader = this.shameInvader.bind(this);
+  }
 
-  componentWillUpdate() {
-    if (this.props.invaderList) {
-        console.log('here is the state', store.getState());
-        console.log('here is the invader list', this.props.invaderList);
+  shameInvader(e) {
+    e.preventDefault()
+    var state = store.getState();
+    if(state.isLoggedIn){
+      this.props.postShame(e.currentTarget.id)
     }
   }
 
@@ -34,7 +39,7 @@ export class Invader extends Component {
     return(
         <div className="row mt-5" className="invaderContainer">
           {
-            this.props.invaderList.map(function(invader){
+            this.props.invaderList.map((invader) => {
               return ( <div key={invader._id} className="singleInvader">
               <Card className="invaderCard">
                 <CardImage className="img-fluid" src={invader.img_url}/>
@@ -42,11 +47,12 @@ export class Invader extends Component {
                     <CardTitle>{invader.lic_plate}</CardTitle>
                     <CardText style={cardStyle}>{invader.lic_state}</CardText>
                     <CardText style={cardStyle}>{invader.make}: {invader.model}</CardText>
-                    <Button href="#">Shame!</Button>
+                    <Button href="#" onClick={this.shameInvader} id={invader._id}>Shame!</Button>
+                    <CardText>{invader.shame}</CardText>
                   </CardBody>
               </Card></div>
             )
-            })
+          })
           }
           </div>
         );
@@ -60,13 +66,15 @@ export class Invader extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    invaderList: state.invaderList
+    invaderList: state.invaderList,
+    shameCount: state.shameCount
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInvaders : (url) => dispatch(fetchInvadersData(url))
+    fetchInvaders : (url) => dispatch(fetchInvadersData(url)),
+    postShame : (invaderId) => dispatch(postShame(invaderId))
   };
 };
 

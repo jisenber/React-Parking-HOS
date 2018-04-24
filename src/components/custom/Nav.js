@@ -6,6 +6,7 @@ import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
 import {isLoggedIn, logOut} from '../../actions/auth.js';
 import {setCurrentUser} from '../../actions/register.js';
+import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import '../../style/style.css';
@@ -33,6 +34,10 @@ class Nav extends Component {
       this.props.isLoggedIn(true);
   }
 }
+
+  // componentDidMount(){
+  //   window.addEventListener('mousedown', this.toggleMobileNav, false);
+  // }
 
   //opens and closes registration modal
   toggleRegister() {
@@ -62,9 +67,7 @@ class Nav extends Component {
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
   toggleMobileNav(e) {
     e.preventDefault();
-    this.setState({
-      mobileNavOptions: !this.state.mobileNavOptions
-    });
+      this.props.toggleMobileNav(this.props.canViewMobileNav)
   }
 
   render() {
@@ -73,7 +76,7 @@ class Nav extends Component {
         <Navbar color="black" dark expand="md">
           <NavbarBrand href="/">Space Invaderz</NavbarBrand>
           <NavbarToggler onClick={this.toggleMobileNav}/>
-          <ul className="dropdown-menu" style={{display: this.state.mobileNavOptions ? 'block' : 'none'}}>
+          <ul className="dropdown-menu mobileNav" style={{display: this.props.canViewMobileNav ? 'block' : 'none'}}>
             <li className ={this.props.userLoggedIn? "hideMe" : "navList"} onClick={this.toggleLogin}><b>Login</b></li>
             <li className ={this.props.userLoggedIn ? "hideMe" : "navList"} onClick={this.toggleRegister}><b>Register</b></li>
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"}><b>View Profile</b></li>
@@ -118,6 +121,7 @@ const mapStateToProps = (state) => {
     canViewAddModal: state.toggleModal.canViewAddModal,
     canViewLoginModal: state.toggleModal.canViewLoginModal,
     canViewRegisterModal: state.toggleModal.canViewRegisterModal,
+    canViewMobileNav: state.canViewMobileNav,
     userLoggedIn: state.isLoggedIn
   };
 };
@@ -129,6 +133,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
+    toggleMobileNav : (bool) => dispatch(toggleMobileNav(bool)),
     setCurrentUser : (username) => dispatch(setCurrentUser(username)),
     logOut : () => dispatch(logOut())
   };

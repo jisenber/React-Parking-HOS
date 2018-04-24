@@ -1,8 +1,9 @@
 import {combineReducers} from 'redux';
 import {cars, carsAreLoading, carModels, imgUrl} from './cars';
 import {states} from './states';
-import {invaderList} from './invaders';
+import {invaderList, shameCount} from './invaders';
 import {toggleModal} from './modal';
+import {canViewMobileNav} from './mobile';
 import {currentUser, isLoggedIn} from './auth';
 
 export default combineReducers({
@@ -14,5 +15,7 @@ export default combineReducers({
   invaderList,
   toggleModal,
   currentUser,
-  isLoggedIn
+  canViewMobileNav,
+  isLoggedIn,
+  shameCount
 });
