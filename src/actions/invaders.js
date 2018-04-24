@@ -32,28 +32,17 @@ export function fetchInvadersData(url) {
   };
 }
 
-export function postShame(invaderId, userName) {
-  console.log(invaderId, userName);
+export function postShame(invaderId) {
   return (dispatch) => {
-    console.log("Inside postShame");
-    request.post(`https://parking-hos-backend.herokuapp.com/shame/${invaderId}`)
+    request.post(`https://parking-hos-backend.herokuapp.com/shame?invader=${invaderId}`)
     .set('Content-Type', 'application/json')
-    .send({user: userName})
     .then((response) => {
       var currentState = store.getState();
       var invaderList = currentState.invaderList;
-      var newInvaderList = invaderList.map((invader) => {
-        invader.id === invaderId ? {...invader, shame: response.body} : invader
-      })
-      // for(var i = 0; i< invaderList.length; i++){
-      //   if (invaderList[i].id === invaderId){
-      //     invaderList[i].shame = response.body
-      //     break
-      //   }
-      // }
-      console.log('invaderlist', invaderList)
+      var newInvaderList = invaderList.map(function(invader) {
+        return (invader._id === response.body._id) ? {...invader, shame: response.body.shame} : invader
+    });
       dispatch(invadersFetchDataSuccess(newInvaderList))
-      console.log('this is the response', response.body);
     })
     .catch((err) => {
       console.log('error posting ', err);

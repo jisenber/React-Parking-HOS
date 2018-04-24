@@ -22,15 +22,7 @@ export class Invader extends Component {
     e.preventDefault()
     var state = store.getState();
     if(state.isLoggedIn){
-      console.log('here is the current target id ', e.currentTarget.id)
-      this.props.postShame(e.currentTarget.id, state.currentUser)
-    }
-  }
-
-  componentWillUpdate() {
-    if (this.props.invaderList) {
-        console.log('here is the state', store.getState());
-        console.log('here is the invader list', this.props.invaderList);
+      this.props.postShame(e.currentTarget.id)
     }
   }
 
@@ -82,7 +74,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchInvaders : (url) => dispatch(fetchInvadersData(url)),
-    postShame : (invaderId, userName) => dispatch(postShame(invaderId, userName))
+    postShame : (invaderId) => dispatch(postShame(invaderId))
   };
 };
 
