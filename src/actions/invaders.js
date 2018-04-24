@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import request from 'superagent';
+import {store} from '../index'
 
 export function invadersFetchDataSuccess(invaders) {
   return {
@@ -34,11 +35,24 @@ export function fetchInvadersData(url) {
 export function postShame(invaderId, userName) {
   console.log(invaderId, userName);
   return (dispatch) => {
+    console.log("Inside postShame");
     request.post(`https://parking-hos-backend.herokuapp.com/shame/${invaderId}`)
     .set('Content-Type', 'application/json')
     .send({user: userName})
     .then((response) => {
-      dispatch(fetchInvadersData('https://parking-hos-backend.herokuapp.com/invaders'))
+      var currentState = store.getState();
+      var invaderList = currentState.invaderList;
+      var newInvaderList = invaderList.map((invader) => {
+        invader.id === invaderId ? {...invader, shame: response.body} : invader
+      })
+      // for(var i = 0; i< invaderList.length; i++){
+      //   if (invaderList[i].id === invaderId){
+      //     invaderList[i].shame = response.body
+      //     break
+      //   }
+      // }
+      console.log('invaderlist', invaderList)
+      dispatch(invadersFetchDataSuccess(newInvaderList))
       console.log('this is the response', response.body);
     })
     .catch((err) => {
