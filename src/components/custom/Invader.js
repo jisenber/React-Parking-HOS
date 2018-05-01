@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact';
 import {connect} from 'react-redux';
+import {toggleLoginModal} from '../../actions/modal.js';
 import {fetchInvadersData, postShame} from '../../actions/invaders';
 import {store} from '../../index.js';
 import '../../style/invader-list-style.css';
@@ -8,6 +9,11 @@ import '../../style/invader-list-style.css';
 
 const cardStyle = {
   fontSize: '1.1rem'
+};
+
+const shameStyle = {
+  fontSize: '1.1rem',
+  textAlign: 'center'
 };
 
 
@@ -23,7 +29,10 @@ export class Invader extends Component {
     var state = store.getState();
     if(state.isLoggedIn){
       this.props.postShame(e.currentTarget.id)
-    }
+    } else {
+        this.props.toggleLoginModal(state.toggleModal.canViewLoginModal);
+        alert('Please log in to shame this invader.')
+      }
   }
 
   componentDidMount() {
@@ -48,7 +57,7 @@ export class Invader extends Component {
                     <CardText style={cardStyle}>{invader.lic_state}</CardText>
                     <CardText style={cardStyle}>{invader.make}: {invader.model}</CardText>
                     <Button href="#" onClick={this.shameInvader} id={invader._id}>Shame!</Button>
-                    <CardText>{invader.shame}</CardText>
+                    <CardText style={shameStyle}><i className="fa fa-thumbs-o-down" aria-hidden="true">  </i> {invader.shame} shamings</CardText>
                   </CardBody>
               </Card></div>
             )
@@ -74,7 +83,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchInvaders : (url) => dispatch(fetchInvadersData(url)),
-    postShame : (invaderId) => dispatch(postShame(invaderId))
+    postShame : (invaderId) => dispatch(postShame(invaderId)),
+    toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool))
   };
 };
 

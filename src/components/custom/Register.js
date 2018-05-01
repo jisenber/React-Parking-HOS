@@ -31,6 +31,7 @@ class Register extends Component {
     this.props.signUpUser(this.state.userName, this.state.password);
     const state = store.getState();
     this.props.toggleModal(state.toggleModal);
+    localStorage.setItem('invaderUsername', this.state.userName)
 
     // if (this.props.userRegistrationHandler) {
     //   localStorage.setItem('spaceInvaders', this.props.userRegistrationHandler.user.body.username)

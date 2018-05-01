@@ -15,3 +15,7 @@
  .card-body {
    min-height: 200px;
  }
+
+ .btn.btn-default.Ripple-parent{
+  display: inherit;
+}

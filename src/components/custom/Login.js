@@ -40,6 +40,7 @@ class Login extends Component {
   loginUser(e){
     e.preventDefault();
     this.props.loginUser(this.state.userName, this.state.password)
+    localStorage.setItem('invaderUsername', this.state.userName)
   }
 
   render () {

@@ -4,8 +4,7 @@ import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
-import {isLoggedIn, logOut} from '../../actions/auth.js';
-import {setCurrentUser} from '../../actions/register.js';
+import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -24,24 +23,21 @@ class Nav extends Component {
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
-
+    this.logOut = this.logOut.bind(this);
   }
 
-  componentWillReceiveProps() {
+  componentDidMount(){
     const state = store.getState();
-    console.log('here is the state: ', state)
-    if (state.currentUser) {
+    if (localStorage.getItem('invaderUsername')){
       this.props.isLoggedIn(true);
+      this.props.setCurrentUser(localStorage.getItem('invaderUsername'));
+    }
   }
-}
-
-  // componentDidMount(){
-  //   window.addEventListener('mousedown', this.toggleMobileNav, false);
-  // }
 
   //opens and closes registration modal
   toggleRegister() {
     const state = store.getState();
+    console.log('toggle register hit!');
     this.props.toggleRegisterModal(state.toggleModal.canViewRegisterModal);
   }
 
@@ -55,12 +51,14 @@ class Nav extends Component {
   toggleAdd(e) {
     if(!e) return;
     e.preventDefault();
+
     const state = store.getState();
     this.props.toggleModal(state.toggleModal.canViewAddModal);
   }
 
-  logOut(e) {
-    e.preventDefault();
+  logOut() {
+    //e.preventDefault()
+    localStorage.removeItem('invaderUsername');
     this.props.logOut();
   }
 
@@ -80,7 +78,7 @@ class Nav extends Component {
             <li className ={this.props.userLoggedIn? "hideMe" : "navList"} onClick={this.toggleLogin}><b>Login</b></li>
             <li className ={this.props.userLoggedIn ? "hideMe" : "navList"} onClick={this.toggleRegister}><b>Register</b></li>
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"}><b>View Profile</b></li>
-            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.props.logOut}><b>log out</b></li>
+            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.logOut}><b>Log Out</b></li>
           </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
@@ -97,7 +95,7 @@ class Nav extends Component {
                   <Button>View Profile</Button>
                 </NavItem>
                 <NavItem>
-                  <Button onClick={this.props.logOut}>Log Out</Button>
+                  <Button onClick={this.logOut}>Log Out</Button>
                 </NavItem>
               </div>
             </NavbarNav>
@@ -134,7 +132,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
     toggleMobileNav : (bool) => dispatch(toggleMobileNav(bool)),
-    setCurrentUser : (username) => dispatch(setCurrentUser(username)),
+    setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
     logOut : () => dispatch(logOut())
   };
 };
