@@ -5,7 +5,6 @@ import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
 import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
-import {setCurrentUser} from '../../actions/register.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -24,16 +23,8 @@ class Nav extends Component {
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
-
+    this.logOut = this.logOut.bind(this);
   }
-
-//   componentWillReceiveProps() {
-//     const state = store.getState();
-//     console.log('here is the state: ', state)
-//     if (state.currentUser) {
-//       this.props.isLoggedIn(true);
-//   }
-// }
 
   componentDidMount(){
     const state = store.getState();
@@ -46,6 +37,7 @@ class Nav extends Component {
   //opens and closes registration modal
   toggleRegister() {
     const state = store.getState();
+    console.log('toggle register hit!');
     this.props.toggleRegisterModal(state.toggleModal.canViewRegisterModal);
   }
 
@@ -59,16 +51,15 @@ class Nav extends Component {
   toggleAdd(e) {
     if(!e) return;
     e.preventDefault();
+
     const state = store.getState();
     this.props.toggleModal(state.toggleModal.canViewAddModal);
   }
 
   logOut() {
-    console.log('logout was hit');
-    // e.preventDefault();
+    //e.preventDefault()
     localStorage.removeItem('invaderUsername');
-    // this.props.logOut();
-    console.log('removed item in storage');
+    this.props.logOut();
   }
 
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
@@ -87,7 +78,7 @@ class Nav extends Component {
             <li className ={this.props.userLoggedIn? "hideMe" : "navList"} onClick={this.toggleLogin}><b>Login</b></li>
             <li className ={this.props.userLoggedIn ? "hideMe" : "navList"} onClick={this.toggleRegister}><b>Register</b></li>
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"}><b>View Profile</b></li>
-            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.props.logOut}><b>log out</b></li>
+            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.logOut}><b>Log Out</b></li>
           </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
@@ -104,7 +95,7 @@ class Nav extends Component {
                   <Button>View Profile</Button>
                 </NavItem>
                 <NavItem>
-                  <Button onClick={this.props.logOut}>Log Out</Button>
+                  <Button onClick={this.logOut}>Log Out</Button>
                 </NavItem>
               </div>
             </NavbarNav>

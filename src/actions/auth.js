@@ -49,8 +49,9 @@ export function login(userName, password){
       .set('Content-Type', 'application/json')
       .send({username: userName, password: password})
       .then((response) => {
-        dispatch(loginUserSuccess(response.body.username))
-        dispatch(toggleLoginModal(true))
+        dispatch(loginUserSuccess(response.body.username));
+        dispatch(toggleLoginModal(true));
+        dispatch(isLoggedIn(true));
       })
       .catch((err) => {
         console.log('error logging user in', err);
