@@ -4,7 +4,7 @@ import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
-import {isLoggedIn, logOut} from '../../actions/auth.js';
+import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
 import {setCurrentUser} from '../../actions/register.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
@@ -27,17 +27,21 @@ class Nav extends Component {
 
   }
 
-  componentWillReceiveProps() {
-    const state = store.getState();
-    console.log('here is the state: ', state)
-    if (state.currentUser) {
-      this.props.isLoggedIn(true);
-  }
-}
+//   componentWillReceiveProps() {
+//     const state = store.getState();
+//     console.log('here is the state: ', state)
+//     if (state.currentUser) {
+//       this.props.isLoggedIn(true);
+//   }
+// }
 
-  // componentDidMount(){
-  //   window.addEventListener('mousedown', this.toggleMobileNav, false);
-  // }
+  componentDidMount(){
+    const state = store.getState();
+    if (localStorage.getItem('invaderUsername')){
+      this.props.isLoggedIn(true);
+      this.props.setCurrentUser(localStorage.getItem('invaderUsername'));
+    }
+  }
 
   //opens and closes registration modal
   toggleRegister() {
@@ -59,9 +63,12 @@ class Nav extends Component {
     this.props.toggleModal(state.toggleModal.canViewAddModal);
   }
 
-  logOut(e) {
-    e.preventDefault();
-    this.props.logOut();
+  logOut() {
+    console.log('logout was hit');
+    // e.preventDefault();
+    localStorage.removeItem('invaderUsername');
+    // this.props.logOut();
+    console.log('removed item in storage');
   }
 
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
@@ -134,7 +141,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
     toggleMobileNav : (bool) => dispatch(toggleMobileNav(bool)),
-    setCurrentUser : (username) => dispatch(setCurrentUser(username)),
+    setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
     logOut : () => dispatch(logOut())
   };
 };
