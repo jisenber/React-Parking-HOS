@@ -2,6 +2,12 @@ import fetch from 'isomorphic-fetch';
 import request from 'superagent';
 import {store} from '../index'
 
+export function removeImage() {
+  return {
+    type: 'INVADER_REMOVE_IMAGE'
+  };
+}
+
 export function invadersFetchDataSuccess(invaders) {
   return {
     type: 'INVADER_FETCH_DATA_SUCCESS',

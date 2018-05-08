@@ -3,8 +3,11 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
 import {carsFetchData, statesFetchData, updateCarModels, uploadFiles, postInvader} from '../../actions/cars';
+import {removeImage} from '../../actions/invaders';
 import {toggleModal} from '../../actions/modal.js';
 import Dropzone from 'react-dropzone';
+import '../../style/style.css';
+let hasAddedPhoto = false;
 
 export class Add extends Component {
   constructor(props) {
@@ -35,6 +38,11 @@ export class Add extends Component {
 
   onImageDrop(files) {
     this.props.uploadFiles(files)
+    hasAddedPhoto = true;
+  }
+
+  removeImage(){
+    this.props.removeImage();
   }
 
   componentDidMount() {
@@ -44,6 +52,11 @@ export class Add extends Component {
     } else {
       console.log('loading cars');
     }
+  }
+
+  componentWillUpdate(){
+    const state = store.getState();
+    console.log('this is the state ' + state.imgUrl);
   }
 
   handleLicStateChange(e) {
@@ -60,8 +73,13 @@ export class Add extends Component {
 
   submitInvader(e){
     e.preventDefault();
-    this.props.postInvader(this.state.licPlate,  this.state.selectedState, this.state.selectedMake, this.state.selectedModel, this.props.imgUrl);
+    if(!hasAddedPhoto){
+      alert('Please add photo of Invader');
+      return
+    }
+    this.props.postInvader(this.state.licPlate, this.state.selectedState, this.state.selectedMake, this.state.selectedModel, this.props.imgUrl);
     const state = store.getState();
+    this.props.removeImage();
     this.props.toggleModal(state.toggleModal);
   }
 
@@ -73,76 +91,78 @@ export class Add extends Component {
 
   render(){
     if(this.props.cars) {
-    return (
+      return (
       <Modal isOpen={this.props.canViewAddModal} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Submit an Invader</ModalHeader>
-        <ModalBody>
-          <form id = "invaderSubmit">
-            <div className="md-form form-sm">
-              <i className="fa fa-drivers-license prefix"></i>
+          <ModalBody>
+            <form id = "invaderSubmit">
+              <div className="md-form form-sm">
+                <i className="fa fa-drivers-license prefix"></i>
                 <input type="text" id="lic_plate_input" className="form-control" placeholder="License Plate" required onChange={this.handleLicPlateChange.bind(this)}/>
-            </div>
-            <div className="md-form form-sm">
-            <i className="fa fa-map-marker prefix"></i>
-              <select name="state" id="stateBar" className="form-control" required onChange={this.handleLicStateChange.bind(this)}>
-                <option value=""> ---States --- </option>
-                {
+              </div>
+              <div className="md-form form-sm">
+                <i className="fa fa-map-marker prefix"></i>
+                <select name="state" id="stateBar" className="form-control" required onChange={this.handleLicStateChange.bind(this)}>
+                  <option value=""> ---States --- </option>
+                  {
                   this.props.states.map(function(state) {
-                    return <option value={state.name} key={state._id}>{state.name}</option>
-                  })
-                }
-              </select>
-            </div>
-            <div className="md-form form-sm">
-            <i className="fa fa-car prefix"></i>
-              <select name="Make" id="makeBar" className="form-control" onChange={this.handleMakeChange.bind(this)} required>
-                <option value="" key="top"> ---Make --- </option>
-                {
-                  this.props.cars.map(function(car) {
-                    return <option value={car.make} key={car._id}>{car.make}</option>
-                  })
-                }
-              </select>
-            </div>
-            <div className="md-form form-sm">
-            <i className="fa fa-search-plus prefix"></i>
-              <select name="Model" id="modelBar" className="form-control" required onChange={this.handleModelChange.bind(this)}>
+                      return <option value={state.name} key={state._id}>{state.name}</option>;
+                    })
+                  }
+                </select>
+              </div>
+              <div className="md-form form-sm">
+                <i className="fa fa-car prefix"></i>
+                <select name="Make" id="makeBar" className="form-control" onChange={this.handleMakeChange.bind(this)} required>
+                  <option value="" key="top"> ---Make --- </option>
+                  {
+                    this.props.cars.map(function(car) {
+                      return <option value={car.make} key={car._id}>{car.make}</option>;
+                    })
+                  }
+                </select>
+              </div>
+              <div className="md-form form-sm">
+                <i className="fa fa-search-plus prefix"></i>
+                <select name="Model" id="modelBar" className="form-control" required onChange={this.handleModelChange.bind(this)}>
                   <option value=""> ---Model --- </option>
                   {
                     this.props.carModels.map(function(model) {
-                      return <option value={model} key={model}>{model}</option>
+                      return <option value={model} key={model}>{model}</option>;
                     })
                   }
-              </select>
-            </div>
-            <div id= "Dropzone">
-              <Dropzone
-                multiple={false}
-                accept="image/*"
-                onDrop={this.onImageDrop.bind(this)}>
-                <p>Drop or select and image to upload.</p>
+                </select>
+              </div>
+              <div id= "Dropzone">
+                <div className = {this.props.imgUrl ? 'hide' : ''}>
+                <Dropzone
+                  multiple={false}
+                  accept="image/*"
+                  onDrop={this.onImageDrop.bind(this)}>
+                  <p>Drop or select and image to upload.</p>
                 </Dropzone>
-                <div className="thumbnailHolder">
-                    {this.props.imgUrl === '' ? null :
-                  <div>
-                    <img src={this.props.imgUrl} />
-                  </div>}
                 </div>
-            </div>
-            <div className="text-center mt-1-half">
-              <button className="btn btn-info mb-2" type="submit" onClick={this.submitInvader}>Submit Invader <i className="fa fa-send ml-1"></i></button>
-            </div>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle}>Close<i className="fa fa-times-circle ml-1"></i></button>
-        </ModalFooter>
-      </Modal>
-    );
-  } else {
-    return (
-      <div></div>
-    )
+                <div className="thumbnailHolder">
+                  {this.props.imgUrl === '' ? null :
+                    <div>
+                      <img src={this.props.imgUrl} />
+                    </div>}
+                </div>
+              </div>
+              <div className="text-center mt-1-half">
+                <button className="btn btn-info mb-2" type="submit" onClick={this.submitInvader}>Submit Invader <i className="fa fa-send ml-1"></i></button>
+              </div>
+            </form>
+          </ModalBody>
+          <ModalFooter>
+            <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle}>Close<i className="fa fa-times-circle ml-1"></i></button>
+          </ModalFooter>
+        </Modal>
+      );
+    } else {
+      return (
+        <div></div>
+      );
     }
   }
 }
@@ -168,7 +188,8 @@ const mapDispatchToProps = (dispatch) => {
     uploadFiles: (files) => dispatch(uploadFiles(files)),
     postInvader: function(plate, state, make, model, url) {
       dispatch(postInvader(plate, state, make, model, url));
-    }
+    },
+    removeImage : () => dispatch(removeImage())
   };
 };
 
