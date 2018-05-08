@@ -73,76 +73,76 @@ export class Add extends Component {
 
   render(){
     if(this.props.cars) {
-    return (
+      return (
       <Modal isOpen={this.props.canViewAddModal} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Submit an Invader</ModalHeader>
-        <ModalBody>
-          <form id = "invaderSubmit">
-            <div className="md-form form-sm">
-              <i className="fa fa-drivers-license prefix"></i>
+          <ModalBody>
+            <form id = "invaderSubmit">
+              <div className="md-form form-sm">
+                <i className="fa fa-drivers-license prefix"></i>
                 <input type="text" id="lic_plate_input" className="form-control" placeholder="License Plate" required onChange={this.handleLicPlateChange.bind(this)}/>
-            </div>
-            <div className="md-form form-sm">
-            <i className="fa fa-map-marker prefix"></i>
-              <select name="state" id="stateBar" className="form-control" required onChange={this.handleLicStateChange.bind(this)}>
-                <option value=""> ---States --- </option>
-                {
+              </div>
+              <div className="md-form form-sm">
+                <i className="fa fa-map-marker prefix"></i>
+                <select name="state" id="stateBar" className="form-control" required onChange={this.handleLicStateChange.bind(this)}>
+                  <option value=""> ---States --- </option>
+                  {
                   this.props.states.map(function(state) {
-                    return <option value={state.name} key={state._id}>{state.name}</option>
-                  })
-                }
-              </select>
-            </div>
-            <div className="md-form form-sm">
-            <i className="fa fa-car prefix"></i>
-              <select name="Make" id="makeBar" className="form-control" onChange={this.handleMakeChange.bind(this)} required>
-                <option value="" key="top"> ---Make --- </option>
-                {
-                  this.props.cars.map(function(car) {
-                    return <option value={car.make} key={car._id}>{car.make}</option>
-                  })
-                }
-              </select>
-            </div>
-            <div className="md-form form-sm">
-            <i className="fa fa-search-plus prefix"></i>
-              <select name="Model" id="modelBar" className="form-control" required onChange={this.handleModelChange.bind(this)}>
+                      return <option value={state.name} key={state._id}>{state.name}</option>;
+                    })
+                  }
+                </select>
+              </div>
+              <div className="md-form form-sm">
+                <i className="fa fa-car prefix"></i>
+                <select name="Make" id="makeBar" className="form-control" onChange={this.handleMakeChange.bind(this)} required>
+                  <option value="" key="top"> ---Make --- </option>
+                  {
+                    this.props.cars.map(function(car) {
+                      return <option value={car.make} key={car._id}>{car.make}</option>;
+                    })
+                  }
+                </select>
+              </div>
+              <div className="md-form form-sm">
+                <i className="fa fa-search-plus prefix"></i>
+                <select name="Model" id="modelBar" className="form-control" required onChange={this.handleModelChange.bind(this)}>
                   <option value=""> ---Model --- </option>
                   {
                     this.props.carModels.map(function(model) {
-                      return <option value={model} key={model}>{model}</option>
+                      return <option value={model} key={model}>{model}</option>;
                     })
                   }
-              </select>
-            </div>
-            <div id= "Dropzone">
-              <Dropzone
-                multiple={false}
-                accept="image/*"
-                onDrop={this.onImageDrop.bind(this)}>
-                <p>Drop or select and image to upload.</p>
+                </select>
+              </div>
+              <div id= "Dropzone">
+                <Dropzone
+                  multiple={false}
+                  accept="image/*"
+                  onDrop={this.onImageDrop.bind(this)}>
+                  <p>Drop or select and image to upload.</p>
                 </Dropzone>
                 <div className="thumbnailHolder">
-                    {this.props.imgUrl === '' ? null :
-                  <div>
-                    <img src={this.props.imgUrl} />
-                  </div>}
+                  {this.props.imgUrl === '' ? null :
+                    <div>
+                      <img src={this.props.imgUrl} />
+                    </div>}
                 </div>
-            </div>
-            <div className="text-center mt-1-half">
-              <button className="btn btn-info mb-2" type="submit" onClick={this.submitInvader}>Submit Invader <i className="fa fa-send ml-1"></i></button>
-            </div>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle}>Close<i className="fa fa-times-circle ml-1"></i></button>
-        </ModalFooter>
-      </Modal>
-    );
-  } else {
-    return (
-      <div></div>
-    )
+              </div>
+              <div className="text-center mt-1-half">
+                <button className="btn btn-info mb-2" type="submit" onClick={this.submitInvader}>Submit Invader <i className="fa fa-send ml-1"></i></button>
+              </div>
+            </form>
+          </ModalBody>
+          <ModalFooter>
+            <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle}>Close<i className="fa fa-times-circle ml-1"></i></button>
+          </ModalFooter>
+        </Modal>
+      );
+    } else {
+      return (
+        <div></div>
+      );
     }
   }
 }
