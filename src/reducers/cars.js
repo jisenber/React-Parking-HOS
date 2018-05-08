@@ -33,6 +33,8 @@ export function imgUrl(state='', action) {
   switch(action.type){
     case 'IMG_UPLOAD_SUCCESS':
       return action.secure_url;
+    case 'INVADER_REMOVE_IMAGE':
+      return '';
     default:
       return state;
   }

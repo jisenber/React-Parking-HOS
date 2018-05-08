@@ -5,6 +5,20 @@
   justify-content: space-evenly;
 }
 
+.hide {
+  display: none;
+}
+
+.thumbnailHolder {
+  width: 200px;
+  border: dashed blue 1px;
+}
+
+.thumbnailHolder img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
 .singleInvader {
   min-width: 175px;
   max-width: 300px;
