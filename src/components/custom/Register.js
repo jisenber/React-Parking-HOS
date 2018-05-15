@@ -12,6 +12,7 @@ class Register extends Component {
     this.state = {
       userName: '',
       password: '',
+      email: '',
       repeatPassword: ''
     }
     this.signUp = this.signUp.bind(this);

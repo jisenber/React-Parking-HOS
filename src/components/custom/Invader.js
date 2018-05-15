@@ -58,6 +58,7 @@ export class Invader extends Component {
                     <CardText style={cardStyle}>{invader.make}: {invader.model}</CardText>
                     <Button href="#" onClick={this.shameInvader} id={invader._id}>Shame!</Button>
                     <CardText style={shameStyle}><i className="fa fa-thumbs-o-down" aria-hidden="true">  </i> {invader.shame} shamings</CardText>
+                    <CardText style={cardStyle}>Posted By: {invader.posted_by}</CardText>
                   </CardBody>
               </Card></div>
             )

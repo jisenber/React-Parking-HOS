@@ -54,11 +54,6 @@ export class Add extends Component {
     }
   }
 
-  componentWillUpdate(){
-    const state = store.getState();
-    console.log('this is the state ' + state.imgUrl);
-  }
-
   handleLicStateChange(e) {
     this.setState({
       selectedState: e.target.value
@@ -77,10 +72,10 @@ export class Add extends Component {
       alert('Please add photo of Invader');
       return
     }
-    this.props.postInvader(this.state.licPlate, this.state.selectedState, this.state.selectedMake, this.state.selectedModel, this.props.imgUrl);
-    const state = store.getState();
+    const currentState = store.getState();
+    this.props.postInvader(this.state.licPlate, this.state.selectedState, this.state.selectedMake, this.state.selectedModel, this.props.imgUrl, currentState.currentUser);
     this.props.removeImage();
-    this.props.toggleModal(state.toggleModal);
+    this.props.toggleModal(currentState.toggleModal);
   }
 
   handleLicPlateChange(e){
@@ -186,8 +181,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchStates : (url) => dispatch(statesFetchData(url)),
     updateCarModels: (carModels) => dispatch(updateCarModels(carModels)),
     uploadFiles: (files) => dispatch(uploadFiles(files)),
-    postInvader: function(plate, state, make, model, url) {
-      dispatch(postInvader(plate, state, make, model, url));
+    postInvader: function(plate, state, make, model, url, currentUser) {
+      dispatch(postInvader(plate, state, make, model, url, currentUser));
     },
     removeImage : () => dispatch(removeImage())
   };
