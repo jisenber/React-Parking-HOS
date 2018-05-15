@@ -29,7 +29,7 @@ class Register extends Component {
       alert("Password must match");
       return
     }
-    this.props.signUpUser(this.state.userName, this.state.password);
+    this.props.signUpUser(this.state.email, this.state.userName, this.state.password);
     const state = store.getState();
     this.props.toggleModal(state.toggleModal);
     localStorage.setItem('invaderUsername', this.state.userName)
@@ -38,6 +38,12 @@ class Register extends Component {
     //   localStorage.setItem('spaceInvaders', this.props.userRegistrationHandler.user.body.username)
     // }
   }
+
+handleEmailChange(e){
+    this.setState({
+      email: e.target.value
+    })
+}
 
   handleUserChange(e){
     this.setState({
@@ -66,7 +72,11 @@ class Register extends Component {
           <form id = "registerForm">
             <div className="md-form form-sm">
               <i className="fa fa-envelope prefix"></i>
-              <input type="text" id="registerEmail" className="form-control" placeholder="Your email" onChange={this.handleUserChange.bind(this)}/>
+              <input type="text" id="registerEmail" className="form-control" placeholder="Your email" onChange={this.handleEmailChange.bind(this)}/>
+            </div>
+            <div className="md-form form-sm">
+              <i className="fa fa-envelope prefix"></i>
+              <input type="text" id="registerUsername" className="form-control" placeholder="Your username" onChange={this.handleUserChange.bind(this)}/>
             </div>
             <div className="md-form form-sm">
               <i className="fa fa-lock prefix"></i>
@@ -99,7 +109,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleModal : (bool) => dispatch(toggleModal(bool)),
-    signUpUser : (userName, password) => dispatch(signUpUser(userName, password))
+    signUpUser : (email, userName, password) => dispatch(signUpUser(email, userName, password))
+
   };
 };
 
