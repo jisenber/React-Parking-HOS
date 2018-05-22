@@ -1,5 +1,6 @@
 import request from 'superagent';
 import {toggleRegisterModal} from './modal' ;
+import {isLoggedIn} from './auth';
 
 export function signUpUserSuccess(username) {
   return {
@@ -18,6 +19,8 @@ export function signUpUser(email, userName, password) {
         console.log('here is the response ' + response);
         dispatch(signUpUserSuccess(response.body.username));
         dispatch(toggleRegisterModal(true));
+        dispatch(isLoggedIn(true));
+
         //cb(response.body.username);
       })
       .catch((err) => {

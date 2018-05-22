@@ -51,7 +51,7 @@ class Login extends Component {
           <form id = "loginForm">
             <div className="md-form form-sm">
               <i className="fa fa-envelope prefix"></i>
-              <input type="text" id="loginEmail" className="form-control" placeholder="Your email" onChange={this.handleUserChange.bind(this)}/>
+              <input type="text" id="loginUsername" className="form-control" placeholder="Your username" onChange={this.handleUserChange.bind(this)}/>
             </div>
             <div className="md-form form-sm">
               <i className="fa fa-lock prefix"></i>

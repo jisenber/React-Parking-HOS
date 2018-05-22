@@ -24,7 +24,7 @@ class Nav extends Component {
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
-    this.toggleProfile = this.toggleProfile.bind(this);
+    //this.toggleProfile = this.toggleProfile.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -33,8 +33,8 @@ class Nav extends Component {
     if (localStorage.getItem('invaderUsername')){
       this.props.isLoggedIn(true);
       this.props.setCurrentUser(localStorage.getItem('invaderUsername'));
-      console.log('currentUser: ' + localStorage.getItem('invaderUsername'));
-      this.props.fetchUserProfile(`https://parking-hos-backend.herokuapp.com/profile?username=${localStorage.getItem('invaderUsername')}`);
+      //console.log('currentUser: ' + localStorage.getItem('invaderUsername'));
+      //this.props.fetchUserProfile(`https://parking-hos-backend.herokuapp.com/profile?username=${localStorage.getItem('invaderUsername')}`);
     }
   }
 
@@ -60,15 +60,15 @@ class Nav extends Component {
     this.props.toggleModal(state.toggleModal.canViewAddModal);
   }
 
-  toggleProfile(e){
-    if(!e) return;
-    e.preventDefault();
-    const state = store.getState();
-    this.props.toggleProfile(true);
-  }
+  // toggleProfile(e){
+  //   if(!e) return;
+  //   e.preventDefault();
+  //   const state = store.getState();
+  //   this.props.toggleProfile(true);
+  // }
 
-  logOut() {
-    //e.preventDefault()
+  logOut(e) {
+    e.preventDefault()
     localStorage.removeItem('invaderUsername');
     this.props.logOut();
   }
@@ -115,7 +115,6 @@ class Nav extends Component {
         <Register isOpen = {this.props.canViewRegisterModal} toggle={this.toggleRegister} />
         <Login isOpen = {this.props.canViewLoginModal} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
         <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} modalOpen="true"/>
-        <Profile isOpen = {this.props.canViewProfile} toggle={this.toggleProfile} />
         <div className={this.props.userLoggedIn ? "fab" : "hideMe"}>
         <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
         <i className="fa fa-plus"></i>
