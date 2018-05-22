@@ -71,7 +71,7 @@ handleEmailChange(e){
         <ModalBody>
           <form id = "registerForm">
             <div className="md-form form-sm">
-              <i className="fa fa-envelope prefix"></i>
+              <i className="fa fa-user prefix"></i>
               <input type="text" id="registerEmail" className="form-control" placeholder="Your email" onChange={this.handleEmailChange.bind(this)}/>
             </div>
             <div className="md-form form-sm">

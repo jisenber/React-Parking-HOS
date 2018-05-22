@@ -18,3 +18,34 @@ export function toggleRegisterModal(bool) {
     canViewRegisterModal: bool
   }
 }
+
+export function toggleProfile(bool) {
+  return {
+    type: 'TOGGLE_PROFILE',
+    canViewRegisterModal: bool
+  }
+}
+
+export function profileFetchDataSuccess(user){
+  return {
+    type: 'USER_PROFILE_FETCHED',
+    userProfile: user
+  }
+}
+
+export function fetchUserProfile(url) {
+  return(dispatch) => {
+    fetch(url)
+      .then(function(user) {
+        return user.json();
+      })
+      .then(function(user){
+        console.log('user profile ' + user);
+        return user
+      })
+      .then((user) => dispatch(profileFetchDataSuccess(user)))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+}

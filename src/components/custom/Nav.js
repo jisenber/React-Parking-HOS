@@ -3,7 +3,8 @@ import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'm
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
-import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
+import Profile from './Profile';
+import {toggleModal, toggleLoginModal, toggleRegisterModal, toggleProfile, fetchUserProfile} from '../../actions/modal.js';
 import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
@@ -23,6 +24,7 @@ class Nav extends Component {
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
+    this.toggleProfile = this.toggleProfile.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -31,6 +33,8 @@ class Nav extends Component {
     if (localStorage.getItem('invaderUsername')){
       this.props.isLoggedIn(true);
       this.props.setCurrentUser(localStorage.getItem('invaderUsername'));
+      console.log('currentUser: ' + localStorage.getItem('invaderUsername'));
+      this.props.fetchUserProfile(`https://parking-hos-backend.herokuapp.com/profile?username=${localStorage.getItem('invaderUsername')}`);
     }
   }
 
@@ -56,6 +60,13 @@ class Nav extends Component {
     this.props.toggleModal(state.toggleModal.canViewAddModal);
   }
 
+  toggleProfile(e){
+    if(!e) return;
+    e.preventDefault();
+    const state = store.getState();
+    this.props.toggleProfile(true);
+  }
+
   logOut() {
     //e.preventDefault()
     localStorage.removeItem('invaderUsername');
@@ -77,7 +88,7 @@ class Nav extends Component {
           <ul className="dropdown-menu mobileNav" style={{display: this.props.canViewMobileNav ? 'block' : 'none'}}>
             <li className ={this.props.userLoggedIn? "hideMe" : "navList"} onClick={this.toggleLogin}><b>Login</b></li>
             <li className ={this.props.userLoggedIn ? "hideMe" : "navList"} onClick={this.toggleRegister}><b>Register</b></li>
-            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"}><b>View Profile</b></li>
+            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.toggleProfile}><b>View Profile</b></li>
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.logOut}><b>Log Out</b></li>
           </ul>
           <div className="collapse navbar-collapse" id="reactNavbar">
@@ -92,7 +103,7 @@ class Nav extends Component {
               </div>
               <div className={this.props.userLoggedIn ? "loggedIn" : "hideMe"}>
                 <NavItem>
-                  <Button>View Profile</Button>
+                  <Button onClick={this.toggleProfile}>View Profile</Button>
                 </NavItem>
                 <NavItem>
                   <Button onClick={this.logOut}>Log Out</Button>
@@ -104,6 +115,7 @@ class Nav extends Component {
         <Register isOpen = {this.props.canViewRegisterModal} toggle={this.toggleRegister} />
         <Login isOpen = {this.props.canViewLoginModal} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
         <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} modalOpen="true"/>
+        <Profile isOpen = {this.props.canViewProfile} toggle={this.toggleProfile} />
         <div className={this.props.userLoggedIn ? "fab" : "hideMe"}>
         <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
         <i className="fa fa-plus"></i>
@@ -120,6 +132,7 @@ const mapStateToProps = (state) => {
     canViewLoginModal: state.toggleModal.canViewLoginModal,
     canViewRegisterModal: state.toggleModal.canViewRegisterModal,
     canViewMobileNav: state.canViewMobileNav,
+    canViewProfile: state.canViewProfile,
     userLoggedIn: state.isLoggedIn
   };
 };
@@ -132,7 +145,9 @@ const mapDispatchToProps = (dispatch) => {
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
     toggleMobileNav : (bool) => dispatch(toggleMobileNav(bool)),
+    toggleProfile: (bool) => dispatch(toggleProfile(bool)),
     setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
+    fetchUserProfile: (url) => dispatch(fetchUserProfile(url)),
     logOut : () => dispatch(logOut())
   };
 };
