@@ -18,6 +18,7 @@ export function toggleModal(state = {
       canViewRegisterModal: !action.canViewRegisterModal,
     });
   case 'TOGGLE_PROFILE':
+    console.log('case toggle Profile hit');
     return Object.assign({}, state, {
       canViewProfile: !action.canViewProfile,
     });
@@ -33,12 +34,13 @@ export function userProfile(state = {
 }, action) {
   switch (action.type) {
     case 'USER_PROFILE_FETCHED':
-      return Object.assign({}, state, {username:action.username, email:action.email, posts:action.posts
+      console.log(action.userProfile);
+      return Object.assign({}, state, {username:action.userProfile.username, email:action.userProfile.email, posts:action.userProfile.posts
       });
     default:
       return state;
   }
-};
+}
 
 // export function toggleLoginModal(state=false, action) {
 //   switch(action.type) {

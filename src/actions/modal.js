@@ -27,6 +27,7 @@ export function toggleProfile(bool) {
 }
 
 export function profileFetchDataSuccess(user){
+  console.log('profile has been fetched' + user);
   return {
     type: 'USER_PROFILE_FETCHED',
     userProfile: user
