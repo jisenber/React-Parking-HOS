@@ -23,13 +23,17 @@ export function invaderShameUpdate(shameCount) {
 }
 
 export function fetchInvadersData(url) {
+  let invaderList = [];
   return (dispatch) => {
     fetch(url)
     .then((invaders) => {
       return invaders.json();
     })
     .then((invaders) => {
-      return invaders
+      while(invaders.length) {
+        invaderList.push(invaders.pop());
+      }
+      return invaderList
     })
     .then((invaders) => dispatch(invadersFetchDataSuccess(invaders)))
     .catch(err => {

@@ -67,15 +67,15 @@ handleEmailChange(e){
   render () {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
-        <ModalHeader toggle={this.props.toggle}>Registration Modal</ModalHeader>
+        <ModalHeader toggle={this.props.toggle}>Register Account</ModalHeader>
         <ModalBody>
           <form id = "registerForm">
             <div className="md-form form-sm">
-              <i className="fa fa-user prefix"></i>
+              <i className="fa fa-envelope prefix"></i>
               <input type="text" id="registerEmail" className="form-control" placeholder="Your email" onChange={this.handleEmailChange.bind(this)}/>
             </div>
             <div className="md-form form-sm">
-              <i className="fa fa-envelope prefix"></i>
+              <i className="fa fa-user prefix"></i>
               <input type="text" id="registerUsername" className="form-control" placeholder="Your username" onChange={this.handleUserChange.bind(this)}/>
             </div>
             <div className="md-form form-sm">
