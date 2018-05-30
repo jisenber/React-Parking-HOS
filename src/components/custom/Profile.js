@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'mdbreact';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Card, CardBody, CardTitle, CardText } from 'mdbreact';
 import {connect} from 'react-redux';
-import {fetchUserProfile, toggleModal} from '../../actions/modal.js';
-import {signUpUser} from '../../actions/register.js';
+import {toggleModal} from '../../actions/modal.js';
+// import {signUpUser} from '../../actions/register.js';
 import {store} from '../../index.js';
 
 const profileStyle = {
@@ -34,35 +34,25 @@ componentWillMount(){
  componentWillUpdate(){
    const state = store.getState()
    console.log('logging canViewProfile: ' + state.toggleModal.canViewProfile);
+   console.log(this.props.userProfile);
  }
 
   render () {
     return (
-    <div style={this.props.canViewProfile ? profileStyle : hideStyle}>
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
-        <ModalHeader toggle={this.props.toggle} className="modalHeader">Login</ModalHeader>
+      <Modal isOpen={this.props.isOpen}>
+        <ModalHeader>Profile</ModalHeader>
         <ModalBody>
-          <form id = "loginForm">
-            <div className="md-form form-sm">
-              <i className="fa fa-envelope prefix"></i>
-              <input type="text" id="loginUsername" className="form-control" placeholder="Your username"/>
-            </div>
-            <div className="md-form form-sm">
-              <i className="fa fa-lock prefix"></i>
-              <input type="password" id="loginPassword" className="form-control" placeholder="Your password" />
-            </div>
-            <div className="text-center mt-2">
-              <button type="submit" className="btn btn-info waves-effect waves-light" id="loginBtn">Log in <i className="fa fa-sign-in ml-1"></i></button>
-            </div>
-          </form>
+          <Card className="profileCard">
+            <CardBody>
+              <CardTitle>Your Personal Profile:</CardTitle>
+              <CardText>Email Address: {this.props.userProfile.username}</CardText>
+            </CardBody>
+          </Card>
         </ModalBody>
         <ModalFooter>
-          <p className="darken-3" ><a className="blue-text">Don't have an Account?</a></p>
-          <p className="darken-3" ><a className="blue-text">Forgot Password?</a></p>
           <button type="button" className="btn btn-outline-info waves-effect ml-auto" onClick={this.props.toggle}>Close<i className="fa fa-times-circle ml-1"></i></button>
         </ModalFooter>
       </Modal>
-    </div>
   );
 }
 }

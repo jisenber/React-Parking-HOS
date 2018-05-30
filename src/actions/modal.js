@@ -22,7 +22,7 @@ export function toggleRegisterModal(bool) {
 export function toggleProfile(bool) {
   return {
     type: 'TOGGLE_PROFILE',
-    canViewRegisterModal: bool
+    canViewProfile: bool
   }
 }
 

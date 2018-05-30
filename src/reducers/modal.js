@@ -18,7 +18,6 @@ export function toggleModal(state = {
       canViewRegisterModal: !action.canViewRegisterModal,
     });
   case 'TOGGLE_PROFILE':
-    console.log('case toggle Profile hit');
     return Object.assign({}, state, {
       canViewProfile: !action.canViewProfile,
     });

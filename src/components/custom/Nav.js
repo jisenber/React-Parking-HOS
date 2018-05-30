@@ -38,6 +38,11 @@ class Nav extends Component {
     }
   }
 
+  componentWillUpdate(){
+    console.log('this is login modal ' + this.props.canViewLoginModal);
+    console.log('this is profile modal ' + this.props.canViewProfile);
+  }
+
   //opens and closes registration modal
   toggleRegister() {
     const state = store.getState();
@@ -131,7 +136,7 @@ const mapStateToProps = (state) => {
     canViewLoginModal: state.toggleModal.canViewLoginModal,
     canViewRegisterModal: state.toggleModal.canViewRegisterModal,
     canViewMobileNav: state.canViewMobileNav,
-    canViewProfile: state.canViewProfile,
+    canViewProfile: state.toggleModal.canViewProfile,
     userLoggedIn: state.isLoggedIn
   };
 };

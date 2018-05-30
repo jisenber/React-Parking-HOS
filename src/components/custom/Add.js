@@ -54,6 +54,11 @@ export class Add extends Component {
     }
   }
 
+  componentWillUpdate(){
+    const currentState = store.getState();
+    console.log("logging profile stuff " + this.props.imgUrl, currentState.currentUser);
+  }
+
   handleLicStateChange(e) {
     this.setState({
       selectedState: e.target.value
