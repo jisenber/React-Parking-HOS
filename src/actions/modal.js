@@ -19,6 +19,13 @@ export function toggleRegisterModal(bool) {
   }
 }
 
+export function toggleDropdown(bool) {
+  return {
+    type: 'TOGGLE_DROPDOWN',
+    dropdowOpen: bool
+  }
+}
+
 export function toggleProfile(bool) {
   return {
     type: 'TOGGLE_PROFILE',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Card, CardBody, CardTitle, CardText } from 'mdbreact';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Card, CardBody, CardTitle, CardText, CardImage } from 'mdbreact';
 import {connect} from 'react-redux';
 import {toggleModal} from '../../actions/modal.js';
 // import {signUpUser} from '../../actions/register.js';
@@ -14,6 +14,19 @@ const profileStyle = {
 
 const hideStyle = {
   display: 'none'
+}
+
+const thumbnail = {
+  width: '100px',
+  height: '100px',
+  display: 'inline-flex',
+  margin: '1em',
+  flexWrap: 'wrap'
+}
+
+const containerStyle = {
+  display: 'flex',
+  justifyContent: 'center'
 }
 //Registration modal component. Only need HTML for now, but incorporating state may be necessary when we implement authentication. props are passed in from Nav component and they can take the form of any object (including functions)
 export class Profile extends Component {
@@ -46,6 +59,21 @@ componentWillMount(){
             <CardBody>
               <CardTitle>Your Personal Profile:</CardTitle>
               <CardText>Email Address: {this.props.userProfile.username}</CardText>
+              <CardText> Invaders you have posted: </CardText>
+              <div className="picture-container" style={containerStyle}>
+              {
+                this.props.userProfile.posts.map((post, i) => {
+                  return (
+                    <div key={i} style={thumbnail}>
+                      <Card className="invaderCard">
+                        <CardImage className="img-fluid" src={post}/>
+                      </Card>
+                    </div>
+                  )
+                })
+              }
+              </div>
+
             </CardBody>
           </Card>
         </ModalBody>

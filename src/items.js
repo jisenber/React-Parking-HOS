@@ -18,6 +18,9 @@ import Col from './components/mdb/Col';
 import Collapse from './components/mdb/Collapse';
 import Container from './components/mdb/Container';
 import Dropdown from './components/mdb/Dropdown';
+import DropdownToggle	from './components/mdb/DropdownToggle';
+import DropdownMenu from './components/mdb/DropdownMenu';
+import DropdownItem from './components/mdb/DropdownItem';
 import Fa from './components/mdb/Fa';
 import Fade from './components/mdb/Fade';
 import FormInline from './components/mdb/FormInline';
@@ -74,6 +77,9 @@ export {
   Collapse,
   Container,
 	Dropdown,
+	DropdownToggle,
+	DropdownMenu,
+	DropdownItem,
 	Fa,
 	Fade,
   FormInline,

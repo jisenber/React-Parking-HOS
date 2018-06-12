@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'mdbreact';
+import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'mdbreact';
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
 import Profile from './Profile';
-import {toggleModal, toggleLoginModal, toggleRegisterModal, toggleProfile, fetchUserProfile} from '../../actions/modal.js';
+import {toggleModal, toggleLoginModal, toggleRegisterModal, toggleProfile, fetchUserProfile, toggleDropdown} from '../../actions/modal.js';
 import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
@@ -25,6 +25,7 @@ class Nav extends Component {
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
     this.toggleProfile = this.toggleProfile.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -83,6 +84,12 @@ class Nav extends Component {
       this.props.toggleMobileNav(this.props.canViewMobileNav)
   }
 
+  toggleDropdown(e) {
+    e.preventDefault();
+    const state = store.getState();
+      this.props.toggleDropdown(state.toggleDropdown)
+  }
+
   render() {
     return (
       <div className="flyout">
@@ -95,6 +102,20 @@ class Nav extends Component {
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.toggleProfile}><b>View Profile</b></li>
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.logOut}><b>Log Out</b></li>
           </ul>
+
+
+          <Dropdown toggle={this.toggleDropdown} isOpen={this.props.dropdownOpen}>
+          <DropdownToggle>
+            Material dropdown
+          </DropdownToggle>
+          <DropdownMenu>
+          <DropdownItem href="#">Action</DropdownItem>
+          <DropdownItem href="#">Another Action</DropdownItem>
+          <DropdownItem href="#">Something else here</DropdownItem>
+          <DropdownItem href="#">Something else here</DropdownItem>
+          </DropdownMenu>
+          </Dropdown>
+
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
               <div className={this.props.userLoggedIn ? "hideMe" : "loggedIn"}>
@@ -137,6 +158,7 @@ const mapStateToProps = (state) => {
     canViewRegisterModal: state.toggleModal.canViewRegisterModal,
     canViewMobileNav: state.canViewMobileNav,
     canViewProfile: state.toggleModal.canViewProfile,
+    dropdownOpen: state.toggleModal.dropdownOpen,
     userLoggedIn: state.isLoggedIn
   };
 };
@@ -150,6 +172,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
     toggleMobileNav : (bool) => dispatch(toggleMobileNav(bool)),
     toggleProfile: (bool) => dispatch(toggleProfile(bool)),
+    toggleDropdown: (bool) => dispatch(toggleDropdown(bool)),
     setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
     fetchUserProfile: (url) => dispatch(fetchUserProfile(url)),
     logOut : () => dispatch(logOut())

@@ -3,6 +3,7 @@ export function toggleModal(state = {
   canViewLoginModal: false,
   canViewRegisterModal: false,
   canViewProfile: false,
+  dropdownOpen: false,
 }, action) {
   switch(action.type) {
   case 'TOGGLE_MODAL':
@@ -20,6 +21,10 @@ export function toggleModal(state = {
   case 'TOGGLE_PROFILE':
     return Object.assign({}, state, {
       canViewProfile: !action.canViewProfile,
+    });
+  case 'TOGGLE_DROPDOWN':
+    return Object.assign({}, state, {
+      dropdownOpen: !action.dropdownOpen,
     });
   default:
     return state;

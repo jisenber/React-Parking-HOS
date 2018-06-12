@@ -5,7 +5,7 @@ import classNames from 'classnames';
 class Nav extends Component {
 
 	render() {
- 
+
     const {
       children,
       className,
@@ -15,8 +15,8 @@ class Nav extends Component {
 
     const classes = classNames(
       'nav',
-      className,
-    );
+      className
+    )
 
 		return (
       <Tag {...attributes} className={classes}>
