@@ -20,9 +20,10 @@ export function toggleRegisterModal(bool) {
 }
 
 export function toggleDropdown(bool) {
+  console.log('in action function, here is boolean', bool);
   return {
     type: 'TOGGLE_DROPDOWN',
-    dropdowOpen: bool
+    dropdownOpen: bool
   }
 }
 

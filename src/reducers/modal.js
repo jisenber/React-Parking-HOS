@@ -23,6 +23,7 @@ export function toggleModal(state = {
       canViewProfile: !action.canViewProfile,
     });
   case 'TOGGLE_DROPDOWN':
+    console.log('toggle dropdown case hit in reducer', action)
     return Object.assign({}, state, {
       dropdownOpen: !action.dropdownOpen,
     });

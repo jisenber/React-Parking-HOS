@@ -34,22 +34,13 @@ class Nav extends Component {
     if (localStorage.getItem('invaderUsername')){
       this.props.isLoggedIn(true);
       this.props.setCurrentUser(localStorage.getItem('invaderUsername'));
-      console.log('currentUser: ' + localStorage.getItem('invaderUsername'));
       this.props.fetchUserProfile(`https://parking-hos-backend.herokuapp.com/profile?username=${localStorage.getItem('invaderUsername')}`);
     }
-  }
-
-  componentWillUpdate(){
-    const state = store.getState();
-    console.log('here is the state ', state);
-    console.log('here is the dropdown open: ', state.dropdownOpen);
-    console.log('here is maybe the actual value: ', state.toggleModal.dropdownOpen);
   }
 
   //opens and closes registration modal
   toggleRegister() {
     const state = store.getState();
-    console.log('toggle register hit!');
     this.props.toggleRegisterModal(state.toggleModal.canViewRegisterModal);
   }
 
@@ -70,7 +61,6 @@ class Nav extends Component {
 
   toggleProfile(){
     const state = store.getState();
-    console.log('logging canViewProfile in Component: ' + state.toggleModal.canViewProfile);
     this.props.toggleProfile(state.toggleModal.canViewProfile);
   }
 
@@ -89,7 +79,7 @@ class Nav extends Component {
   toggleDropdown(e) {
     e.preventDefault();
     const state = store.getState();
-      this.props.toggleDropdown(state.toggleDropdown)
+      this.props.toggleDropdown(state.toggleModal.dropdownOpen);
   }
 
   render() {
@@ -105,17 +95,16 @@ class Nav extends Component {
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.logOut}><b>Log Out</b></li>
           </ul>
 
-
           <Dropdown toggle={this.toggleDropdown} isOpen={this.props.dropdownOpen}>
-          <DropdownToggle>
-            Material dropdown
-          </DropdownToggle>
-          <DropdownMenu>
-          <DropdownItem href="#">Action</DropdownItem>
-          <DropdownItem href="#">Another Action</DropdownItem>
-          <DropdownItem href="#">Something else here</DropdownItem>
-          <DropdownItem href="#">Something else here</DropdownItem>
-          </DropdownMenu>
+            <DropdownToggle>
+              Material dropdown
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem href="#">Action</DropdownItem>
+              <DropdownItem href="#">Another Action</DropdownItem>
+              <DropdownItem href="#">Something else here</DropdownItem>
+              <DropdownItem href="#">Something else here</DropdownItem>
+            </DropdownMenu>
           </Dropdown>
 
           <div className="collapse navbar-collapse" id="reactNavbar">
