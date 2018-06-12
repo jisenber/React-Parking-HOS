@@ -4,8 +4,8 @@ import classNames from 'classnames';
 
 class Nav extends Component {
 
-	render() {
-
+  render() {
+ 
     const {
       children,
       className,
@@ -15,15 +15,15 @@ class Nav extends Component {
 
     const classes = classNames(
       'nav',
-      className
-    )
+      className,
+    );
 
-		return (
+    return (
       <Tag {...attributes} className={classes}>
         {children}
       </Tag>
-		);
-	}
+    );
+  }
 }
 
 Nav.propTypes = {

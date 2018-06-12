@@ -40,8 +40,10 @@ class Nav extends Component {
   }
 
   componentWillUpdate(){
-    console.log('this is login modal ' + this.props.canViewLoginModal);
-    console.log('this is profile modal ' + this.props.canViewProfile);
+    const state = store.getState();
+    console.log('here is the state ', state);
+    console.log('here is the dropdown open: ', state.dropdownOpen);
+    console.log('here is maybe the actual value: ', state.toggleModal.dropdownOpen);
   }
 
   //opens and closes registration modal
