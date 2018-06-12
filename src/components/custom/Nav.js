@@ -97,13 +97,11 @@ class Nav extends Component {
 
           <Dropdown toggle={this.toggleDropdown} isOpen={this.props.dropdownOpen}>
             <DropdownToggle>
-              Material dropdown
+              Sort By:
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem href="#">Action</DropdownItem>
-              <DropdownItem href="#">Another Action</DropdownItem>
-              <DropdownItem href="#">Something else here</DropdownItem>
-              <DropdownItem href="#">Something else here</DropdownItem>
+              <DropdownItem href="#">Most Recent</DropdownItem>
+              <DropdownItem href="#">Shame Count</DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
