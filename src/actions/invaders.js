@@ -59,3 +59,49 @@ export function postShame(invaderId) {
     })
   }
 }
+
+export function sortInvadersByShame(invaderList) {
+  return (dispatch) => {
+    const invaderShameObject = invaderList.reduce(function(acc, curr) {
+     acc[curr.shame] = curr;
+     return acc;
+  }, {});
+    const shameCounts = Object.keys(invaderShameObject);
+    const sortedShameCounts = mergeSort(shameCounts);
+    console.log('shameObject?' + JSON.stringify(invaderShameObject));
+    let sorted = [];
+    for (var i = 0; i < shameCounts.length; i++) {
+      sorted.push(invaderShameObject[sortedShameCounts[i]])
+    }
+    dispatch(invadersFetchDataSuccess(sorted));
+  }
+}
+
+function mergeSort(array) {
+  if (array.length < 2) {
+    return array;
+  }
+  const middle = Math.floor(array.length/2)
+  const leftSide = array.slice(0, middle);
+  const rightSide = array.slice(middle);
+
+  return  merge(mergeSort(leftSide), mergeSort(rightSide))
+}
+
+function merge(leftSide, rightSide) {
+  let sorted = [];
+  while(leftSide.length && rightSide.length) {
+    if(leftSide[0] >= rightSide[0]) {
+      sorted.push(leftSide.shift())
+    } else {
+      sorted.push(rightSide.shift())
+    }
+  }
+  while(leftSide.length) {
+    sorted.push(leftSide.shift())
+  }
+  while(rightSide.length) {
+    sorted.push(rightSide.shift())
+  }
+  return sorted;
+}

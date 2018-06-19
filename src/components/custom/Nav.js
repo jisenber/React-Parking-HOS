@@ -6,6 +6,7 @@ import Add from './Add';
 import Profile from './Profile';
 import {toggleModal, toggleLoginModal, toggleRegisterModal, toggleProfile, fetchUserProfile, toggleDropdown} from '../../actions/modal.js';
 import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
+import {sortInvadersByShame} from '../../actions/invaders.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -26,6 +27,7 @@ class Nav extends Component {
     this.toggleAdd = this.toggleAdd.bind(this);
     this.toggleProfile = this.toggleProfile.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.sortInvadersByShame = this.sortInvadersByShame.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -70,6 +72,12 @@ class Nav extends Component {
     this.props.logOut();
   }
 
+  sortInvadersByShame(e){
+    e.preventDefault();
+    const state = store.getState();
+    this.props.sortInvadersByShame(state.invaderList);
+  }
+
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
   toggleMobileNav(e) {
     e.preventDefault();
@@ -101,7 +109,7 @@ class Nav extends Component {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem href="#">Most Recent</DropdownItem>
-              <DropdownItem href="#">Shame Count</DropdownItem>
+              <DropdownItem href="#" onClick={this.sortInvadersByShame}>Shame Count</DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
@@ -164,6 +172,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleDropdown: (bool) => dispatch(toggleDropdown(bool)),
     setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
     fetchUserProfile: (url) => dispatch(fetchUserProfile(url)),
+    sortInvadersByShame: (invaderList) => dispatch(sortInvadersByShame(invaderList)),
     logOut : () => dispatch(logOut())
   };
 };
