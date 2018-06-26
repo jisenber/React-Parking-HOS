@@ -6,7 +6,7 @@ import Add from './Add';
 import Profile from './Profile';
 import {toggleModal, toggleLoginModal, toggleRegisterModal, toggleProfile, fetchUserProfile, toggleDropdown} from '../../actions/modal.js';
 import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
-import {sortInvadersByShame} from '../../actions/invaders.js';
+import {sortInvadersByShame, fetchInvadersData} from '../../actions/invaders.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -28,6 +28,7 @@ class Nav extends Component {
     this.toggleProfile = this.toggleProfile.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.sortInvadersByShame = this.sortInvadersByShame.bind(this);
+    this.sortInvadersByDate = this.sortInvadersByDate.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -78,6 +79,11 @@ class Nav extends Component {
     this.props.sortInvadersByShame(state.invaderList);
   }
 
+  sortInvadersByDate(e){
+    e.preventDefault();
+    this.props.sortInvadersByDate('https://parking-hos-backend.herokuapp.com/invaders');
+  }
+
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
   toggleMobileNav(e) {
     e.preventDefault();
@@ -108,7 +114,7 @@ class Nav extends Component {
               Sort By:
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem href="#">Most Recent</DropdownItem>
+              <DropdownItem href="#" onClick={this.sortInvadersByDate}>Most Recent</DropdownItem>
               <DropdownItem href="#" onClick={this.sortInvadersByShame}>Shame Count</DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -173,6 +179,7 @@ const mapDispatchToProps = (dispatch) => {
     setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
     fetchUserProfile: (url) => dispatch(fetchUserProfile(url)),
     sortInvadersByShame: (invaderList) => dispatch(sortInvadersByShame(invaderList)),
+    sortInvadersByDate: (url) => dispatch(fetchInvadersData(url)),
     logOut : () => dispatch(logOut())
   };
 };

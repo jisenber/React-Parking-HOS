@@ -63,17 +63,23 @@ export function postShame(invaderId) {
 export function sortInvadersByShame(invaderList) {
   return (dispatch) => {
     const invaderShameObject = invaderList.reduce(function(acc, curr) {
-     acc[curr.shame] = curr;
+      if(!acc[curr.shame]){
+        acc[curr.shame] = [curr];
+      } else {
+        acc[curr.shame].push(curr);
+      }
      return acc;
   }, {});
     const shameCounts = Object.keys(invaderShameObject);
-    const sortedShameCounts = mergeSort(shameCounts);
-    console.log('shameObject?' + JSON.stringify(invaderShameObject));
+    const sortedShameCounts = shameCounts.sort(function(a, b) {
+      return b-a;
+    });
     let sorted = [];
     for (var i = 0; i < shameCounts.length; i++) {
       sorted.push(invaderShameObject[sortedShameCounts[i]])
     }
-    dispatch(invadersFetchDataSuccess(sorted));
+    const merged = [].concat.apply([], sorted)
+    dispatch(invadersFetchDataSuccess(merged));
   }
 }
 
@@ -82,26 +88,24 @@ function mergeSort(array) {
     return array;
   }
   const middle = Math.floor(array.length/2)
-  const leftSide = array.slice(0, middle);
-  const rightSide = array.slice(middle);
+  const rightSide = array.slice(0, middle);
+  const leftSide = array.slice(middle);
 
-  return  merge(mergeSort(leftSide), mergeSort(rightSide))
+  return  merge(mergeSort(rightSide), mergeSort(leftSide))
 }
 
 function merge(leftSide, rightSide) {
+  var i = 0;
+  var j = 0;
   let sorted = [];
-  while(leftSide.length && rightSide.length) {
-    if(leftSide[0] >= rightSide[0]) {
-      sorted.push(leftSide.shift())
+  while((i < leftSide.length) && (j < rightSide.length)) {
+    if(leftSide[i] > rightSide[j]) {
+      sorted.push(leftSide[i]);
+      i += 1;
     } else {
-      sorted.push(rightSide.shift())
+      sorted.push(rightSide[j]);
+      j += 1;
     }
   }
-  while(leftSide.length) {
-    sorted.push(leftSide.shift())
-  }
-  while(rightSide.length) {
-    sorted.push(rightSide.shift())
-  }
-  return sorted;
+  return sorted.concat(leftSide.slice(i).concat(rightSide.slice(j)));
 }
