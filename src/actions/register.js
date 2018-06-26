@@ -1,5 +1,6 @@
 import request from 'superagent';
 import {toggleRegisterModal} from './modal' ;
+import {isLoggedIn} from './auth';
 
 export function signUpUserSuccess(username) {
   return {
@@ -9,14 +10,17 @@ export function signUpUserSuccess(username) {
 }
 
 
-export function signUpUser(userName, password) {
+export function signUpUser(email, userName, password) {
   return (dispatch) => {
     request.post('https://parking-hos-backend.herokuapp.com/signup')
       .set('Content-Type', 'application/json')
-      .send({username: userName, password : password})
+      .send({email: email, username: userName, password : password})
       .then((response) => {
+        console.log('here is the response ' + response);
         dispatch(signUpUserSuccess(response.body.username));
         dispatch(toggleRegisterModal(true));
+        dispatch(isLoggedIn(true));
+
         //cb(response.body.username);
       })
       .catch((err) => {

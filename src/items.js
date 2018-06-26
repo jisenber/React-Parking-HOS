@@ -18,14 +18,20 @@ import Col from './components/mdb/Col';
 import Collapse from './components/mdb/Collapse';
 import Container from './components/mdb/Container';
 import Dropdown from './components/mdb/Dropdown';
+import DropdownItem from './components/mdb/DropdownItem';
+import DropdownMenu from './components/mdb/DropdownMenu';
+import DropdownToggle from './components/mdb/DropdownToggle';
+import EdgeHeader from './components/mdb/EdgeHeader';
 import Fa from './components/mdb/Fa';
 import Fade from './components/mdb/Fade';
 import FormInline from './components/mdb/FormInline';
 import Footer from './components/mdb/Footer';
+import FreeBird from './components/mdb/FreeBird';
 import Input from './components/mdb/Input';
 import Jumbotron from './components/mdb/Jumbotron';
 import ListGroup from './components/mdb/ListGroup';
 import ListGroupItem from './components/mdb/ListGroupItem';
+import Mask from './components/mdb/Mask';
 import Media from './components/mdb/Media';
 import Modal from './components/mdb/Modal';
 import ModalBody from './components/mdb/ModalBody';
@@ -45,21 +51,22 @@ import Popover from './components/mdb/Popover';
 import PopoverBody from './components/mdb/PopoverBody';
 import PopoverHeader from './components/mdb/PopoverHeader';
 import Progress from './components/mdb/Progress';
-import Ripple from './components/mdb/Ripple';
+import Waves from './components/mdb/Waves';
 import Row from './components/mdb/Row';
 import Table from './components/mdb/Table';
 import TabPane from './components/mdb/TabPane';
 import TabContent from './components/mdb/TabContent';
 import TextField from './components/mdb/TextField';
 import Tooltip from './components/mdb/Tooltip';
+import View from './components/mdb/View';
 
 export {
-	Badge,
-	Breadcrumb,
-	BreadcrumbItem,
-	Button,
-	ButtonGroup,
-	ButtonToolbar,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
   Card,
   CardBody,
   CardImage,
@@ -73,22 +80,28 @@ export {
   Col,
   Collapse,
   Container,
-	Dropdown,
-	Fa,
-	Fade,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  EdgeHeader,
+  Fa,
+  Fade,
   FormInline,
   Footer,
+  FreeBird,
   Input,
   Jumbotron,
   ListGroup,
   ListGroupItem,
+  Mask,
   Media,
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Nav,
-	Navbar,
+  Navbar,
   NavbarBrand,
   NavbarNav,
   NavbarToggler,
@@ -101,11 +114,12 @@ export {
   PopoverBody,
   PopoverHeader,
   Progress,
-  Ripple,
+  Waves,
   Row,
   Table,
   TabPane,
   TabContent,
   TextField,
   Tooltip,
-}
+  View
+};

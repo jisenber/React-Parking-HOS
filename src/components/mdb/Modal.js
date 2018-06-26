@@ -38,7 +38,7 @@ const propTypes = {
   cssModule: PropTypes.object,
   zIndex: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.string,
+    PropTypes.string
   ]),
   backdropTransitionTimeout: PropTypes.number,
   backdropTransitionAppearTimeout: PropTypes.number,
@@ -47,7 +47,7 @@ const propTypes = {
   modalTransitionTimeout: PropTypes.number,
   modalTransitionAppearTimeout: PropTypes.number,
   modalTransitionEnterTimeout: PropTypes.number,
-  modalTransitionLeaveTimeout: PropTypes.number,
+  modalTransitionLeaveTimeout: PropTypes.number
 };
 
 const propsToOmit = Object.keys(propTypes);
@@ -59,9 +59,9 @@ const defaultProps = {
   backdrop: true,
   keyboard: true,
   zIndex: 1050,
-  fade: true,
+  fade: false,
   modalTransitionTimeout: 300,
-  backdropTransitionTimeout: 150,
+  backdropTransitionTimeout: 150
 };
 
 class Modal extends React.Component {
@@ -258,7 +258,7 @@ class Modal extends React.Component {
 
     if (this.hasTransition()) {
       return (
-        <TransitionGroup component="div" className={mapToCssModules(wrapClassName)}>
+        <TransitionGroup component={null} className={mapToCssModules(wrapClassName)}>
           {isOpen && (
             <Fade
               key="modal-dialog"

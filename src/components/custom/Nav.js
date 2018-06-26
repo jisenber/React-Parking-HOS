@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem} from 'mdbreact';
+import { Button, Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'mdbreact';
 import Register from './Register';
 import Login from './Login';
 import Add from './Add';
-import {toggleModal, toggleLoginModal, toggleRegisterModal} from '../../actions/modal.js';
+import Profile from './Profile';
+import {toggleModal, toggleLoginModal, toggleRegisterModal, toggleProfile, fetchUserProfile, toggleDropdown} from '../../actions/modal.js';
 import {isLoggedIn, logOut, loginUserSuccess} from '../../actions/auth.js';
+import {sortInvadersByShame, fetchInvadersData} from '../../actions/invaders.js';
 import {toggleMobileNav} from '../../actions/mobile.js';
 import {store} from '../../index.js';
 import {connect} from 'react-redux';
@@ -23,6 +25,10 @@ class Nav extends Component {
     this.toggleLogin = this.toggleLogin.bind(this);
     this.toggleMobileNav = this.toggleMobileNav.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
+    this.toggleProfile = this.toggleProfile.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.sortInvadersByShame = this.sortInvadersByShame.bind(this);
+    this.sortInvadersByDate = this.sortInvadersByDate.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -31,13 +37,13 @@ class Nav extends Component {
     if (localStorage.getItem('invaderUsername')){
       this.props.isLoggedIn(true);
       this.props.setCurrentUser(localStorage.getItem('invaderUsername'));
+      this.props.fetchUserProfile(`https://parking-hos-backend.herokuapp.com/profile?username=${localStorage.getItem('invaderUsername')}`);
     }
   }
 
   //opens and closes registration modal
   toggleRegister() {
     const state = store.getState();
-    console.log('toggle register hit!');
     this.props.toggleRegisterModal(state.toggleModal.canViewRegisterModal);
   }
 
@@ -56,16 +62,38 @@ class Nav extends Component {
     this.props.toggleModal(state.toggleModal.canViewAddModal);
   }
 
-  logOut() {
-    //e.preventDefault()
+  toggleProfile(){
+    const state = store.getState();
+    this.props.toggleProfile(state.toggleModal.canViewProfile);
+  }
+
+  logOut(e) {
+    e.preventDefault()
     localStorage.removeItem('invaderUsername');
     this.props.logOut();
+  }
+
+  sortInvadersByShame(e){
+    e.preventDefault();
+    const state = store.getState();
+    this.props.sortInvadersByShame(state.invaderList);
+  }
+
+  sortInvadersByDate(e){
+    e.preventDefault();
+    this.props.sortInvadersByDate('https://parking-hos-backend.herokuapp.com/invaders');
   }
 
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
   toggleMobileNav(e) {
     e.preventDefault();
       this.props.toggleMobileNav(this.props.canViewMobileNav)
+  }
+
+  toggleDropdown(e) {
+    e.preventDefault();
+    const state = store.getState();
+      this.props.toggleDropdown(state.toggleModal.dropdownOpen);
   }
 
   render() {
@@ -77,9 +105,20 @@ class Nav extends Component {
           <ul className="dropdown-menu mobileNav" style={{display: this.props.canViewMobileNav ? 'block' : 'none'}}>
             <li className ={this.props.userLoggedIn? "hideMe" : "navList"} onClick={this.toggleLogin}><b>Login</b></li>
             <li className ={this.props.userLoggedIn ? "hideMe" : "navList"} onClick={this.toggleRegister}><b>Register</b></li>
-            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"}><b>View Profile</b></li>
+            <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.toggleProfile}><b>View Profile</b></li>
             <li className ={this.props.userLoggedIn ? "navList" : "hideMe"} onClick={this.logOut}><b>Log Out</b></li>
           </ul>
+
+          <Dropdown toggle={this.toggleDropdown} isOpen={this.props.dropdownOpen}>
+            <DropdownToggle>
+              Sort By:
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem href="#" onClick={this.sortInvadersByDate}>Most Recent</DropdownItem>
+              <DropdownItem href="#" onClick={this.sortInvadersByShame}>Shame Count</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
           <div className="collapse navbar-collapse" id="reactNavbar">
             <NavbarNav className="ml-auto">
               <div className={this.props.userLoggedIn ? "hideMe" : "loggedIn"}>
@@ -92,7 +131,7 @@ class Nav extends Component {
               </div>
               <div className={this.props.userLoggedIn ? "loggedIn" : "hideMe"}>
                 <NavItem>
-                  <Button>View Profile</Button>
+                  <Button onClick={this.toggleProfile}>View Profile</Button>
                 </NavItem>
                 <NavItem>
                   <Button onClick={this.logOut}>Log Out</Button>
@@ -103,7 +142,8 @@ class Nav extends Component {
         </Navbar>
         <Register isOpen = {this.props.canViewRegisterModal} toggle={this.toggleRegister} />
         <Login isOpen = {this.props.canViewLoginModal} toggle={this.toggleLogin} openLogin={this.toggleRegister}/>
-        <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} modalOpen="true"/>
+        <Add isOpen = {this.props.canViewAddModal} toggle={this.toggleAdd} />
+        <Profile isOpen = {this.props.canViewProfile} toggle={this.toggleProfile} />
         <div className={this.props.userLoggedIn ? "fab" : "hideMe"}>
         <Button onClick={this.toggleAdd} className="btn btn-floating btn-large red" id="postButton">
         <i className="fa fa-plus"></i>
@@ -120,6 +160,8 @@ const mapStateToProps = (state) => {
     canViewLoginModal: state.toggleModal.canViewLoginModal,
     canViewRegisterModal: state.toggleModal.canViewRegisterModal,
     canViewMobileNav: state.canViewMobileNav,
+    canViewProfile: state.toggleModal.canViewProfile,
+    dropdownOpen: state.toggleModal.dropdownOpen,
     userLoggedIn: state.isLoggedIn
   };
 };
@@ -132,7 +174,12 @@ const mapDispatchToProps = (dispatch) => {
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool)),
     toggleRegisterModal : (bool) => dispatch(toggleRegisterModal(bool)),
     toggleMobileNav : (bool) => dispatch(toggleMobileNav(bool)),
+    toggleProfile: (bool) => dispatch(toggleProfile(bool)),
+    toggleDropdown: (bool) => dispatch(toggleDropdown(bool)),
     setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
+    fetchUserProfile: (url) => dispatch(fetchUserProfile(url)),
+    sortInvadersByShame: (invaderList) => dispatch(sortInvadersByShame(invaderList)),
+    sortInvadersByDate: (url) => dispatch(fetchInvadersData(url)),
     logOut : () => dispatch(logOut())
   };
 };

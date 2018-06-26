@@ -51,13 +51,15 @@ export class Invader extends Component {
             this.props.invaderList.map((invader) => {
               return ( <div key={invader._id} className="singleInvader">
               <Card className="invaderCard">
-                <CardImage className="img-fluid" src={invader.img_url}/>
+                <CardImage className="img-fluid thumbnail" src={invader.img_url}/>
                   <CardBody>
                     <CardTitle>{invader.lic_plate}</CardTitle>
                     <CardText style={cardStyle}>{invader.lic_state}</CardText>
                     <CardText style={cardStyle}>{invader.make}: {invader.model}</CardText>
                     <Button href="#" onClick={this.shameInvader} id={invader._id}>Shame!</Button>
                     <CardText style={shameStyle}><i className="fa fa-thumbs-o-down" aria-hidden="true">  </i> {invader.shame} shamings</CardText>
+                    <CardText style={cardStyle}>Posted By: {invader.posted_by}</CardText>
+                    <CardText style={cardStyle}><small>Date Posted: {invader.date.slice(0,10)}</small></CardText>
                   </CardBody>
               </Card></div>
             )

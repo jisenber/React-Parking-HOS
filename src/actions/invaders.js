@@ -23,13 +23,17 @@ export function invaderShameUpdate(shameCount) {
 }
 
 export function fetchInvadersData(url) {
+  let invaderList = [];
   return (dispatch) => {
     fetch(url)
     .then((invaders) => {
       return invaders.json();
     })
     .then((invaders) => {
-      return invaders
+      while(invaders.length) {
+        invaderList.push(invaders.pop());
+      }
+      return invaderList
     })
     .then((invaders) => dispatch(invadersFetchDataSuccess(invaders)))
     .catch(err => {
@@ -54,4 +58,54 @@ export function postShame(invaderId) {
       console.log('error posting ', err);
     })
   }
+}
+
+export function sortInvadersByShame(invaderList) {
+  return (dispatch) => {
+    const invaderShameObject = invaderList.reduce(function(acc, curr) {
+      if(!acc[curr.shame]){
+        acc[curr.shame] = [curr];
+      } else {
+        acc[curr.shame].push(curr);
+      }
+     return acc;
+  }, {});
+    const shameCounts = Object.keys(invaderShameObject);
+    const sortedShameCounts = shameCounts.sort(function(a, b) {
+      return b-a;
+    });
+    let sorted = [];
+    for (var i = 0; i < shameCounts.length; i++) {
+      sorted.push(invaderShameObject[sortedShameCounts[i]])
+    }
+    const merged = [].concat.apply([], sorted)
+    dispatch(invadersFetchDataSuccess(merged));
+  }
+}
+
+function mergeSort(array) {
+  if (array.length < 2) {
+    return array;
+  }
+  const middle = Math.floor(array.length/2)
+  const rightSide = array.slice(0, middle);
+  const leftSide = array.slice(middle);
+
+  return  merge(mergeSort(rightSide), mergeSort(leftSide))
+}
+
+function merge(leftSide, rightSide) {
+  var i = 0;
+  var j = 0;
+  let sorted = [];
+  while((i < leftSide.length) && (j < rightSide.length)) {
+    if(leftSide[i] > rightSide[j]) {
+      sorted.push(leftSide[i]);
+      i += 1;
+    } else {
+      sorted.push(rightSide[j]);
+      j += 1;
+    }
+  }
+  return sorted.concat(leftSide.slice(i).concat(rightSide.slice(j)));
 }
