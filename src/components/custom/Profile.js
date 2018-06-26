@@ -17,8 +17,8 @@ const hideStyle = {
 }
 
 const thumbnail = {
-  width: '100px',
-  height: '100px',
+  width: '150px',
+  height: '150px',
   display: 'inline-flex',
   margin: '1em',
   flexWrap: 'wrap'
@@ -26,7 +26,8 @@ const thumbnail = {
 
 const containerStyle = {
   display: 'flex',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  flexWrap: 'wrap'
 }
 //Registration modal component. Only need HTML for now, but incorporating state may be necessary when we implement authentication. props are passed in from Nav component and they can take the form of any object (including functions)
 export class Profile extends Component {
@@ -52,8 +53,8 @@ componentWillMount(){
 
   render () {
     return (
-      <Modal isOpen={this.props.isOpen}>
-        <ModalHeader>Profile</ModalHeader>
+      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
+        <ModalHeader toggle={this.props.toggle}>Profile</ModalHeader>
         <ModalBody>
           <Card className="profileCard">
             <CardBody>

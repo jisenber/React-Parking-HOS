@@ -22,7 +22,7 @@ export function invaderShameUpdate(shameCount) {
   };
 }
 
-export function fetchInvadersData(url) {
+export function fetchInvadersData(url, cb) {
   let invaderList = [];
   return (dispatch) => {
     fetch(url)
@@ -35,7 +35,10 @@ export function fetchInvadersData(url) {
       }
       return invaderList
     })
-    .then((invaders) => dispatch(invadersFetchDataSuccess(invaders)))
+    .then((invaders) => {
+      dispatch(invadersFetchDataSuccess(invaders))
+      cb(invaders)
+    })
     .catch(err => {
       console.log(err);
     });

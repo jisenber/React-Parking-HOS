@@ -37,7 +37,16 @@ export class Invader extends Component {
 
   componentDidMount() {
     if(this.props.fetchInvaders) {
-      this.props.fetchInvaders('https://parking-hos-backend.herokuapp.com/invaders')
+      this.props.fetchInvaders('https://parking-hos-backend.herokuapp.com/invaders', function(invaders){
+        const paginatedInvaders = [];
+        while (invaders.length){
+        paginatedInvaders.push([invaders.slice(0,12)])
+        invaders.splice(0,12);
+          console.log("i am in the callback, here's the invaders:" + invaders);
+        }
+        console.log('paginated length = ' + paginatedInvaders.length);
+        console.log('paginated = ' + paginatedInvaders);
+      })
     } else {
       console.log('loading invaders');
     }
@@ -84,7 +93,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInvaders : (url) => dispatch(fetchInvadersData(url)),
+    fetchInvaders : (url, cb) => dispatch(fetchInvadersData(url, cb)),
     postShame : (invaderId) => dispatch(postShame(invaderId)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool))
   };
