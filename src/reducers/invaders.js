@@ -14,7 +14,7 @@ export function invaderList(state = {
   case 'INVADER_FETCH_DATA_SUCCESS':
     return Object.assign({}, state, {
       displayedInvaders: action.invaders,
-      pageNumber: action.pageNumber + 1
+      pageNumber: (action.shouldIterate) ? action.pageNumber + 1 : action.pageNumber
     });
   default:
     return state;
@@ -29,12 +29,3 @@ export function shameCount(state = 0, action) {
     return state;
   }
 }
-
-// export function paginatedInvaders(state=[], action) {
-//   switch(action.type) {
-//     case 'PAGINATE_INVADERS':
-//       return action.invaders;
-//     default:
-//       return state;
-//   }
-// }

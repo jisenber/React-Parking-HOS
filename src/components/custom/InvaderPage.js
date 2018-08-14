@@ -25,23 +25,11 @@ constructor(props) {
   this.shameInvader = this.shameInvader.bind(this);
 }
 
-// getDerivedStateFromProps(props, state){
-//   console.log('I am receiving the props', props);
-//   console.log('this is the state', state);
-// }
-
-// componentWillReceiveProps() {
-//   const state = store.getState();
-//   console.log("here is the state:" + state);
-//   console.log('here are my invaders: ', this.props.myInvaders);
-//
-// }
-
 shameInvader(e) {
   e.preventDefault()
   var state = store.getState();
   if(state.isLoggedIn){
-    this.props.postShame(e.currentTarget.id)
+    this.props.postShame(e.currentTarget.id, state.invaderList.pageNumber)
   } else {
       this.props.toggleLoginModal(state.toggleModal.canViewLoginModal);
       alert('Please log in to shame this invader.')
@@ -77,8 +65,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    firstPage : (invaders) => dispatch(invadersFetchDataSuccess(invaders)),
-    postShame : (invaderId) => dispatch(postShame(invaderId)),
+    postShame : (invaderId, pageNumber) => dispatch(postShame(invaderId, pageNumber)),
     toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool))
   };
 };

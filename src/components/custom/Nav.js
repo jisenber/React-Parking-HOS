@@ -76,13 +76,13 @@ class Nav extends Component {
   sortInvadersByShame(e){
     e.preventDefault();
     const state = store.getState();
-    this.props.sortInvadersByShame(state.invaderList.displayedInvaders);
+    this.props.sortInvadersByShame(state.invaderList.displayedInvaders, state.invaderList.pageNumber);
   }
 
   sortInvadersByDate(e){
     e.preventDefault();
     const state = store.getState();
-    this.props.sortInvadersByDate(state.invaderList.displayedInvaders);
+    this.props.sortInvadersByDate(state.invaderList.displayedInvaders, state.invaderList.pageNumber);
   }
 
   //Exapnds and collapses the mobile-view nav. This will only open when hamburger is clicked.
@@ -179,8 +179,8 @@ const mapDispatchToProps = (dispatch) => {
     toggleDropdown: (bool) => dispatch(toggleDropdown(bool)),
     setCurrentUser : (username) => dispatch(loginUserSuccess(username)),
     fetchUserProfile: (url) => dispatch(fetchUserProfile(url)),
-    sortInvadersByShame: (invaderList) => dispatch(sortInvadersByShame(invaderList)),
-    sortInvadersByDate: (listOfInvaders) => dispatch(sortInvadersByDate(listOfInvaders)),
+    sortInvadersByShame: (invaderList, pageNumber) => dispatch(sortInvadersByShame(invaderList, pageNumber)),
+    sortInvadersByDate: (listOfInvaders, pageNumber) => dispatch(sortInvadersByDate(listOfInvaders, pageNumber)),
     logOut : () => dispatch(logOut())
   };
 };

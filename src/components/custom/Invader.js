@@ -40,31 +40,8 @@ export class Invader extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const state = store.getState();
-    console.log('component wil update?' + state.invaderList.displayedInvaders);
-    return true;
-  }
-
   render () {
       return(
-        //  <div>
-        //   <h1>demo: react-infinite-scroll-component</h1>
-        //   <hr />
-        //   <InfiniteScroll
-        //     dataLength={this.state.items.length}
-        //     next={this.fetchMoreData}
-        //     hasMore={true}
-        //     loader={<h4>Loading...</h4>}
-        //   >
-        //     {this.state.items.map((i, index) => (
-        //       <div style={style} key={index}>
-        //         div - #{index}
-        //       </div>
-        //     ))}
-        //   </InfiniteScroll>
-        // </div>
-
         <div className={Array.isArray(this.props.invaderList) ? 'show' : 'hide'}>
         <InfiniteScroll
           dataLength={this.props.invaderList.length}
