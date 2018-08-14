@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import request from 'superagent';
-import {store} from '../index'
+import {store} from '../index';
 
 export function removeImage() {
   return {
@@ -8,10 +8,10 @@ export function removeImage() {
   };
 }
 
-export function invadersFetchDataSuccess(invaders) {
+export function invadersFetchDataSuccess(invaders, pageNumber) {
   return {
     type: 'INVADER_FETCH_DATA_SUCCESS',
-    invaders
+    invaders, pageNumber
   };
 }
 
@@ -22,22 +22,22 @@ export function invaderShameUpdate(shameCount) {
   };
 }
 
-export function fetchInvadersData(url, cb) {
-  let invaderList = [];
+export function fetchInvadersData(url, invadersOnPage, pageNumber) {
+  console.log('here are the invaders on page: ', invadersOnPage);
+  let invaderList = invadersOnPage;
   return (dispatch) => {
     fetch(url)
     .then((invaders) => {
       return invaders.json();
     })
     .then((invaders) => {
-      while(invaders.length) {
-        invaderList.push(invaders.pop());
-      }
-      return invaderList
+      return invaders.slice((pageNumber * 15), (pageNumber * 15 + 15))
     })
     .then((invaders) => {
-      dispatch(invadersFetchDataSuccess(invaders))
-      cb(invaders)
+      return invaderList.concat(invaders)
+    })
+    .then((invaders) => {
+      dispatch(invadersFetchDataSuccess(invaders, pageNumber))
     })
     .catch(err => {
       console.log(err);
@@ -83,6 +83,17 @@ export function sortInvadersByShame(invaderList) {
     }
     const merged = [].concat.apply([], sorted)
     dispatch(invadersFetchDataSuccess(merged));
+  }
+}
+
+export function sortInvadersByDate(invaderList) {
+  return (dispatch) => {
+    const sortedDates = invaderList.sort(function(a, b) {
+      var c = new Date(a.date);
+      var d = new Date(b.date);
+      return d-c;
+    });
+    dispatch(invadersFetchDataSuccess(sortedDates));
   }
 }
 

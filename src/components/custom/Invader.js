@@ -3,6 +3,8 @@ import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact
 import {connect} from 'react-redux';
 import {toggleLoginModal} from '../../actions/modal.js';
 import {fetchInvadersData, postShame} from '../../actions/invaders';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import InvaderPage from './InvaderPage';
 import {store} from '../../index.js';
 import '../../style/invader-list-style.css';
 
@@ -21,81 +23,78 @@ const shameStyle = {
 export class Invader extends Component {
   constructor(props){
     super(props);
-    this.shameInvader = this.shameInvader.bind(this);
+    this.fetchInvaders = this.fetchInvaders.bind(this);
   }
 
-  shameInvader(e) {
-    e.preventDefault()
-    var state = store.getState();
-    if(state.isLoggedIn){
-      this.props.postShame(e.currentTarget.id)
-    } else {
-        this.props.toggleLoginModal(state.toggleModal.canViewLoginModal);
-        alert('Please log in to shame this invader.')
-      }
+  fetchInvaders() {
+    const state = store.getState();
+    console.log("I have been CALLED" + state.invaderList);
+    this.props.fetchInvaders('https://parking-hos-backend.herokuapp.com/invaders', state.invaderList.displayedInvaders, state.invaderList.pageNumber)
   }
 
   componentDidMount() {
     if(this.props.fetchInvaders) {
-      this.props.fetchInvaders('https://parking-hos-backend.herokuapp.com/invaders', function(invaders){
-        const paginatedInvaders = [];
-        while (invaders.length){
-        paginatedInvaders.push([invaders.slice(0,12)])
-        invaders.splice(0,12);
-          console.log("i am in the callback, here's the invaders:" + invaders);
-        }
-        console.log('paginated length = ' + paginatedInvaders.length);
-        console.log('paginated = ' + paginatedInvaders);
-      })
+      this.props.fetchInvaders('https://parking-hos-backend.herokuapp.com/invaders', [], 0)
     } else {
       console.log('loading invaders');
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const state = store.getState();
+    console.log('component wil update?' + state.invaderList.displayedInvaders);
+    return true;
+  }
+
   render () {
-    if(Array.isArray(this.props.invaderList)) {
-    return(
-        <div className="row mt-5" className="invaderContainer">
-          {
-            this.props.invaderList.map((invader) => {
-              return ( <div key={invader._id} className="singleInvader">
-              <Card className="invaderCard">
-                <CardImage className="img-fluid thumbnail" src={invader.img_url}/>
-                  <CardBody>
-                    <CardTitle>{invader.lic_plate}</CardTitle>
-                    <CardText style={cardStyle}>{invader.lic_state}</CardText>
-                    <CardText style={cardStyle}>{invader.make}: {invader.model}</CardText>
-                    <Button href="#" onClick={this.shameInvader} id={invader._id}>Shame!</Button>
-                    <CardText style={shameStyle}><i className="fa fa-thumbs-o-down" aria-hidden="true">  </i> {invader.shame} shamings</CardText>
-                    <CardText style={cardStyle}>Posted By: {invader.posted_by}</CardText>
-                    <CardText style={cardStyle}><small>Date Posted: {invader.date.slice(0,10)}</small></CardText>
-                  </CardBody>
-              </Card></div>
+      return(
+        //  <div>
+        //   <h1>demo: react-infinite-scroll-component</h1>
+        //   <hr />
+        //   <InfiniteScroll
+        //     dataLength={this.state.items.length}
+        //     next={this.fetchMoreData}
+        //     hasMore={true}
+        //     loader={<h4>Loading...</h4>}
+        //   >
+        //     {this.state.items.map((i, index) => (
+        //       <div style={style} key={index}>
+        //         div - #{index}
+        //       </div>
+        //     ))}
+        //   </InfiniteScroll>
+        // </div>
+
+        <div className={Array.isArray(this.props.invaderList) ? 'show' : 'hide'}>
+        <InfiniteScroll
+          dataLength={this.props.invaderList.length}
+          next={this.fetchInvaders}
+          hasMore={true}
+        >
+        {
+          this.props.invaderList.map((invader, i) => {
+            return (
+              <div key={i} className="singleInvader">
+                <InvaderPage invader={invader} key={invader._id} />
+              </div>
             )
           })
-          }
-          </div>
-        );
-    } else {
-      return (
-        <h1>Not working</h1>
-      );
+        }
+        </InfiniteScroll>
+        </div>
+      )
     }
   }
-}
 
 const mapStateToProps = (state) => {
   return {
-    invaderList: state.invaderList,
-    shameCount: state.shameCount
+    invaderList: state.invaderList.displayedInvaders
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInvaders : (url, cb) => dispatch(fetchInvadersData(url, cb)),
-    postShame : (invaderId) => dispatch(postShame(invaderId)),
-    toggleLoginModal : (bool) => dispatch(toggleLoginModal(bool))
+    fetchInvaders : (url, invadersOnPage, pageNumber) => dispatch(fetchInvadersData(url, invadersOnPage, pageNumber))
   };
 };
 
