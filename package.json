@@ -4,6 +4,9 @@
   "author": "Jacob Isenberg and Jon Wong. Bootstrap styling materials from MDBootstrap",
   "license": "MIT",
   "repository": "https://github.com/mdbootstrap/React-Bootstrap-with-Material-Design",
+  "engines": {
+    "yarn": "1.3.2"
+  },
   "dependencies": {
     "mdbreact":"git+https://github.com/mdbootstrap/React-Bootstrap-with-Material-Design.git#react-upgrade",
     "react": "^16.4.0",
