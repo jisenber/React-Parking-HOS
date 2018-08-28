@@ -49,7 +49,6 @@ export function fetchUserProfile(url) {
         return user.json();
       })
       .then(function(user){
-        console.log('user profile ' + user);
         return user
       })
       .then((user) => dispatch(profileFetchDataSuccess(user)))

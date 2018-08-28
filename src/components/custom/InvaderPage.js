@@ -40,16 +40,15 @@ shameInvader(e) {
       return(
         <div className="row mt-5" className="invaderContainer">
             <Card className="invaderCard">
-            <CardImage className="img-fluid thumbnail" src={this.props.invader.img_url}/>
-            <CardBody>
-            <CardTitle>{this.props.invader.lic_plate}</CardTitle>
-            <CardText style={cardStyle}>{this.props.invader.lic_state}</CardText>
-            <CardText style={cardStyle}>{this.props.invader.make}: {this.props.invader.model}</CardText>
-            <Button href="#" onClick={this.shameInvader} id={this.props.invader._id}>Shame!</Button>
-            <CardText style={shameStyle}><i className="fa fa-thumbs-o-down" aria-hidden="true">  </i> {this.props.invader.shame} shamings</CardText>
-            <CardText style={cardStyle}>Posted By: {this.props.invader.posted_by}</CardText>
-            <CardText style={cardStyle}><small>Date Posted:</small></CardText>
-            </CardBody>
+              <CardImage className="img-fluid thumbnail" src={this.props.invader.img_url}/>
+              <CardBody>
+                <CardTitle>{this.props.invader.lic_plate}</CardTitle>
+                <CardText style={cardStyle}>{this.props.invader.lic_state}</CardText>
+                <CardText style={cardStyle}>{this.props.invader.make}: {this.props.invader.model}</CardText>
+                <Button href="#" onClick={this.shameInvader} id={this.props.invader._id}>Shame!</Button>
+                <CardText style={shameStyle}><i className="fa fa-thumbs-o-down" aria-hidden="true">  </i> {this.props.invader.shame} shamings</CardText>
+                <CardText style={cardStyle}><small>Date Posted: {this.props.invader.date.slice(0,10)}</small></CardText>
+              </CardBody>
             </Card>
         </div>
     );

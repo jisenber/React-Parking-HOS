@@ -45,15 +45,9 @@ componentWillMount(){
    console.log('I have mounted');
  }
 
- componentWillUpdate(){
-   const state = store.getState()
-   console.log('logging canViewProfile: ' + state.toggleModal.canViewProfile);
-   console.log(this.props.userProfile);
- }
-
   render () {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
+      <Modal autoFocus={false} isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Profile</ModalHeader>
         <ModalBody>
           <Card className="profileCard">

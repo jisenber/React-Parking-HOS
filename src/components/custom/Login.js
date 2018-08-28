@@ -45,7 +45,7 @@ class Login extends Component {
 
   render () {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
+      <Modal autoFocus={false} isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle} className="modalHeader">Login</ModalHeader>
         <ModalBody>
           <form id = "loginForm">

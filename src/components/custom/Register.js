@@ -33,10 +33,6 @@ class Register extends Component {
     const state = store.getState();
     this.props.toggleModal(state.toggleModal);
     localStorage.setItem('invaderUsername', this.state.userName)
-
-    // if (this.props.userRegistrationHandler) {
-    //   localStorage.setItem('spaceInvaders', this.props.userRegistrationHandler.user.body.username)
-    // }
   }
 
 handleEmailChange(e){
@@ -66,7 +62,7 @@ handleEmailChange(e){
 
   render () {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
+      <Modal autoFocus={false} isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Register Account</ModalHeader>
         <ModalBody>
           <form id = "registerForm">

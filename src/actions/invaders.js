@@ -37,9 +37,6 @@ export function fetchInvadersData(url, invadersOnPage, pageNumber) {
     .then((invaders) => {
       return invaders.json();
     })
-    // .then((invaders) => {
-    //   return invaders.slice((pageNumber * 15), (pageNumber * 15 + 15))
-    // })
     .then((invaders) => {
       return invaderList.concat(invaders)
     })

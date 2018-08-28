@@ -54,11 +54,6 @@ export class Add extends Component {
     }
   }
 
-  componentWillUpdate(){
-    const currentState = store.getState();
-    console.log("logging profile stuff " + this.props.imgUrl, currentState.currentUser);
-  }
-
   handleLicStateChange(e) {
     this.setState({
       selectedState: e.target.value
@@ -92,7 +87,7 @@ export class Add extends Component {
   render(){
     if(this.props.cars) {
       return (
-      <Modal isOpen={this.props.canViewAddModal} toggle={this.props.toggle} backdrop={this.props.backdrop}>
+      <Modal autoFocus={false} isOpen={this.props.canViewAddModal} toggle={this.props.toggle} backdrop={this.props.backdrop}>
         <ModalHeader toggle={this.props.toggle}>Submit an Invader</ModalHeader>
           <ModalBody>
             <form id = "invaderSubmit">
